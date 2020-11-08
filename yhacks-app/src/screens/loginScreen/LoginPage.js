@@ -1,90 +1,161 @@
-import React, { Component } from 'react'
+import React from 'react';
+import Avatar from '@material-ui/core/Avatar';
+import Button from '@material-ui/core/Button';
+import CssBaseline from '@material-ui/core/CssBaseline';
+import TextField from '@material-ui/core/TextField';
+import FormControlLabel from '@material-ui/core/FormControlLabel';
+import InputLabel from '@material-ui/core/InputLabel';
+import FormControl from '@material-ui/core/FormControl';
+import Select from '@material-ui/core/Select';
 
-export class LoginPage extends Component {
+import Link from '@material-ui/core/Link';
+import Grid from '@material-ui/core/Grid';
+import Box from '@material-ui/core/Box';
 
-    constructor(props) {
-        super(props);
-        this.state = { isToggleOn: true };
+import Typography from '@material-ui/core/Typography';
+import { makeStyles } from '@material-ui/core/styles';
+import Container from '@material-ui/core/Container';
 
-        // This binding is necessary to make `this` work in the callback
-        this.signUpButton = this.signUpButton.bind(this);
-        this.signInButton = this.signInButton.bind(this);
-    }
-
-    signUpButton(e) {
-        e.preventDefault();
-        const container = document.getElementById('container');
-        container.classList.add('right-panel-active');
-        console.log("SignUP Button")
-    }
-
-    signInButton(e) {
-        e.preventDefault();
-        const container = document.getElementById('container');
-        container.classList.remove('right-panel-active');
-        console.log("Sign in Button")
-    }
-
-    render() {
-        return (
-            <>
-                <div className="container" id="container">
-                    <div className="form-container sign-up-container">
-                        <div className="form-container sign-up-container">
-                            <form action="#">
-                                <h1>Create Account</h1>
-                                <div className="social-container">
-                                    <a href="#" className="social"><i className="fab fa-facebook-f"></i></a>
-                                    <a href="#" className="social"><i className="fab fa-google-plus-g"></i></a>
-                                    <a href="#" className="social"><i className="fab fa-linkedin-in"></i></a>
-                                </div>
-                                <span>or use your email for registration</span>
-                                <input type="text" placeholder="Name" />
-                                <input type="email" placeholder="Email" />
-                                <input type="password" placeholder="Password" />
-                                <button onClick={this.signUpButton}>Sign Up</button>
-                            </form>
-                        </div>
-                    </div>
-                    <div className="form-container sign-in-container">
-                        <div className="form-container sign-in-container">
-                            <form action="#">
-                                <h1>Sign in</h1>
-                                <div className="social-container">
-                                    <a href="#" className="social"><i className="fab fa-facebook-f"></i></a>
-                                    <a href="#" className="social"><i className="fab fa-google-plus-g"></i></a>
-                                    <a href="#" className="social"><i className="fab fa-linkedin-in"></i></a>
-                                </div>
-                                <span>or use your account</span>
-                                <input type="email" placeholder="Email" />
-                                <input type="password" placeholder="Password" />
-                                <a href="#">Forgot your password?</a>
-                                <button onClick={this.signInButton}>Sign In</button>
-                            </form>
-                        </div>
-                    </div>
-                    <div className="overlay-container">
-                        <div className="overlay-container">
-                            <div className="overlay">
-                                <div className="overlay-panel overlay-left">
-                                    <h1>Welcome Back!</h1>
-                                    <p>
-                                        To keep connected with us please login with your personal info
-                                    </p>
-                                    <button className="ghost" id="signIn" onClick={this.signInButton}>Sign In</button>
-                                </div>
-                                <div className="overlay-panel overlay-right">
-                                    <h1>Hello, Friend!</h1>
-                                    <p>Enter your personal details and start journey with us</p>
-                                    <button className="ghost" id="signUp" onClick={this.signUpButton}>Sign Up</button>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </>
-        )
-    }
+function Copyright() {
+  return (
+    <Typography variant="body2" color="textSecondary" align="center">
+      {'Copyright © '}
+      <Link color="inherit" href="https://material-ui.com/">
+        Your Website
+      </Link>{' '}
+      {new Date().getFullYear()}
+      {'.'}
+    </Typography>
+  );
 }
 
-export default LoginPage
+const useStyles = makeStyles((theme) => ({
+  paper: {
+    marginTop: theme.spacing(8),
+    display: 'flex',
+    flexDirection: 'column',
+    alignItems: 'center',
+  },
+  avatar: {
+    margin: theme.spacing(1),
+    backgroundColor: theme.palette.secondary.main,
+  },
+  form: {
+    width: '100%', // Fix IE 11 issue.
+    marginTop: theme.spacing(3),
+  },
+  submit: {
+    margin: theme.spacing(3, 0, 2),
+  },
+  date: {
+      alignItems: 'left',
+  },
+  formControl: {
+    margin: theme.spacing(1),
+    minWidth: 120,
+  },
+  selectEmpty: {
+    marginTop: theme.spacing(2),
+  },
+}));
+
+export default function SignUp() {
+  const classes = useStyles();
+
+  return (
+    <Container component="main" maxWidth="xs">
+      <CssBaseline />
+      <div className={classes.paper}>
+        <Avatar>:)</Avatar>
+        <Typography component="h1" variant="h5">
+          Sign up
+        </Typography>
+        <form className={classes.form} noValidate>
+          <Grid container spacing={2}>
+            <Grid item xs={12} sm={6}>
+              <TextField
+                autoComplete="fname"
+                name="firstName"
+                variant="outlined"
+                required
+                fullWidth
+                id="firstName"
+                label="First Name"
+                autoFocus
+              />
+            </Grid>
+            <Grid item xs={12} sm={6}>
+              <TextField
+                variant="outlined"
+                required
+                fullWidth
+                id="lastName"
+                label="Last Name"
+                name="lastName"
+                autoComplete="lname"
+              />
+            </Grid>
+            <Grid item xs={12}>
+              <TextField
+                variant="outlined"
+                required
+                fullWidth
+                id="email"
+                label="Email Address"
+                name="email"
+                autoComplete="email"
+              />
+            </Grid>
+            <Grid item xs={12}>
+              <TextField
+                variant="outlined"
+                required
+                fullWidth
+                name="password"
+                label="Password"
+                type="password"
+                id="password"
+                autoComplete="current-password"
+              />
+            </Grid>
+            <Grid item xs={12} sm={6}>
+                <TextField
+                id="date"
+                label="Date of Birth"
+                type="date"
+                defaultValue="2017-05-24"
+                className={classes.textField, classes.date}
+                InputLabelProps={{
+                shrink: true,
+                }}
+                />
+                
+            </Grid>
+            <Grid item xs = {12} sm = {6}>
+                
+            </Grid>
+          </Grid>
+          <Button
+            type="submit"
+            fullWidth
+            variant="contained"
+            color="primary"
+            className={classes.submit}
+          >
+            Sign Up
+          </Button>
+          <Grid container justify="flex-end">
+            <Grid item>
+              <Link href="#" variant="body2">
+                Already have an account? Sign in
+              </Link>
+            </Grid>
+          </Grid>
+        </form>
+      </div>
+      <Box mt={5}>
+        <Copyright />
+      </Box>
+    </Container>
+  );
+}
