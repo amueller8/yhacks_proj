@@ -3,18 +3,17 @@ import Avatar from '@material-ui/core/Avatar';
 import Button from '@material-ui/core/Button';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import TextField from '@material-ui/core/TextField';
-import FormControlLabel from '@material-ui/core/FormControlLabel';
 import InputLabel from '@material-ui/core/InputLabel';
-import FormControl from '@material-ui/core/FormControl';
 import Select from '@material-ui/core/Select';
-
 import Link from '@material-ui/core/Link';
 import Grid from '@material-ui/core/Grid';
 import Box from '@material-ui/core/Box';
-
+import FormControlLabel from '@material-ui/core/FormControlLabel';
 import Typography from '@material-ui/core/Typography';
 import { makeStyles } from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
+
+import { FormControl, FormLabel, Radio, RadioGroup } from '@material-ui/core';
 
 function Copyright() {
     return (
@@ -61,6 +60,11 @@ const useStyles = makeStyles((theme) => ({
 
 export default function SignUp() {
     const classes = useStyles();
+    const [genderValue, setGenderValue] = React.useState('female');
+
+    const handleGenderChange = (event) => {
+        setGenderValue(event.target.value);
+    };
 
     return (
         <Container component="main" maxWidth="xs">
@@ -72,6 +76,29 @@ export default function SignUp() {
         </Typography>
                 <form className={classes.form} noValidate>
                     <Grid container spacing={2}>
+                        <Grid item xs={12} sm={6}>
+                            <TextField
+                                autoComplete="fname"
+                                name="firstName"
+                                variant="outlined"
+                                required
+                                fullWidth
+                                id="firstName"
+                                label="First Name"
+                                autoFocus
+                            />
+                        </Grid>
+                        <Grid item xs={12} sm={6}>
+                            <TextField
+                                variant="outlined"
+                                required
+                                fullWidth
+                                id="lastName"
+                                label="Last Name"
+                                name="lastName"
+                                autoComplete="lname"
+                            />
+                        </Grid>
                         <Grid item xs={12}>
                             <TextField
                                 variant="outlined"
@@ -95,6 +122,42 @@ export default function SignUp() {
                                 autoComplete="current-password"
                             />
                         </Grid>
+                        <Grid item xs={12}>
+                            <TextField
+                                variant="outlined"
+                                required
+                                fullWidth
+                                name="password"
+                                label="Confirmed Password"
+                                type="password"
+                                id="confirmedPassword"
+                                autoComplete="current-password"
+                            />
+                        </Grid>
+                        <Grid item xs={12} sm={6}>
+                            <FormControl component="fieldset">
+                                <FormLabel component="legend">Gender</FormLabel>
+                                <RadioGroup aria-label="gender" name="gender1" value={genderValue} onChange={handleGenderChange}>
+                                    <FormControlLabel value="female" control={<Radio />} label="Female" />
+                                    <FormControlLabel value="male" control={<Radio />} label="Male" />
+                                    <FormControlLabel value="other" control={<Radio />} label="Other" />
+                                </RadioGroup>
+                            </FormControl>
+                        </Grid>
+                        <Grid item xs={12} sm={6}>
+                            <TextField
+                                id="date"
+                                label="Date of Birth"
+                                type="date"
+                                defaultValue="2017-05-24"
+                                className={classes.textField, classes.date}
+                                InputLabelProps={{
+                                    shrink: true,
+                                }}
+                            />
+                        </Grid>
+                        <Grid item xs={12}>
+                        </Grid>
                     </Grid>
                     <Button
                         type="submit"
@@ -103,12 +166,12 @@ export default function SignUp() {
                         color="primary"
                         className={classes.submit}
                     >
-                        Sign In
-                        </Button>
+                        Sign Up
+                    </Button>
                     <Grid container justify="flex-end">
                         <Grid item>
-                            <Link href="/signup" variant="body2">
-                                New User? Create an account here.
+                            <Link href="/login" variant="body2">
+                                Already have an account? Sign in
                             </Link>
                         </Grid>
                     </Grid>

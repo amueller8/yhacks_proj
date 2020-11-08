@@ -3,6 +3,7 @@ import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
 
 
 import { LandingScreen } from '../screens/landingScreen';
+import SignUp from '../screens/loginScreen/SingUpPage';
 import LoginPage from '../screens/loginScreen/LoginPage';
 
 function Routes(props) {
@@ -11,6 +12,7 @@ function Routes(props) {
       <Router>
         <Switch>
           <Route exact path="/login" component={LoginPage} />
+          <Route exact path="/signup" component={SignUp} />
           <Route exact path={"/"} component={LandingScreen} />
         </Switch>
       </Router>
