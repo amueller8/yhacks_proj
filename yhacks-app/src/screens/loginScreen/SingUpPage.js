@@ -13,6 +13,7 @@ import Typography from '@material-ui/core/Typography';
 import { makeStyles } from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
 
+
 import { FormControl, FormLabel, Radio, RadioGroup } from '@material-ui/core';
 
 function Copyright() {
@@ -61,9 +62,14 @@ const useStyles = makeStyles((theme) => ({
 export default function SignUp() {
     const classes = useStyles();
     const [genderValue, setGenderValue] = React.useState('female');
+    const [phoneValue, setPhoneValue] = React.useState('');
 
     const handleGenderChange = (event) => {
         setGenderValue(event.target.value);
+    };
+
+    const handlePhoneChange = (event) => {
+        setPhoneValue(event.target.value);
     };
 
     return (
@@ -81,6 +87,7 @@ export default function SignUp() {
                                 autoComplete="fname"
                                 name="firstName"
                                 variant="outlined"
+                                placeholder="John"
                                 required
                                 fullWidth
                                 id="firstName"
@@ -94,6 +101,7 @@ export default function SignUp() {
                                 required
                                 fullWidth
                                 id="lastName"
+                                placeholder="Doe"
                                 label="Last Name"
                                 name="lastName"
                                 autoComplete="lname"
@@ -105,6 +113,7 @@ export default function SignUp() {
                                 required
                                 fullWidth
                                 id="email"
+                                placeholder="Where should we contact you?"
                                 label="Email Address"
                                 name="email"
                                 autoComplete="email"
@@ -116,6 +125,7 @@ export default function SignUp() {
                                 required
                                 fullWidth
                                 name="password"
+                                placeholder="Shh! Don't let anyone know this."
                                 label="Password"
                                 type="password"
                                 id="password"
@@ -128,7 +138,21 @@ export default function SignUp() {
                                 required
                                 fullWidth
                                 name="password"
+                                placeholder="Retype the secret here."
                                 label="Confirmed Password"
+                                type="password"
+                                id="confirmedPassword"
+                                autoComplete="current-password"
+                            />
+                        </Grid>
+                        <Grid item xs={12}>
+                            <TextField
+                                variant="outlined"
+                                required
+                                fullWidth
+                                name="phoneNumber"
+                                label="Phone Number"
+                                placeholder="123-456-7890"
                                 type="password"
                                 id="confirmedPassword"
                                 autoComplete="current-password"
@@ -155,8 +179,6 @@ export default function SignUp() {
                                     shrink: true,
                                 }}
                             />
-                        </Grid>
-                        <Grid item xs={12}>
                         </Grid>
                     </Grid>
                     <Button
