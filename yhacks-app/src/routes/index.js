@@ -1,15 +1,16 @@
 import React from 'react';
-import {BrowserRouter as Router, Switch, Route} from 'react-router-dom';
+import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
 
-import {LoginScreen} from '../screens/loginScreen';
-import {LandingScreen} from '../screens/landingScreen';
+
+import { LandingScreen } from '../screens/landingScreen';
+import LoginPage from '../screens/loginScreen/LoginPage';
 
 function Routes(props) {
-  return(
+  return (
     <div>
       <Router>
         <Switch>
-          <Route exact path={"/login"} component={LoginScreen} />
+          <Route exact path="/login" component={LoginPage} />
           <Route exact path={"/"} component={LandingScreen} />
         </Switch>
       </Router>
