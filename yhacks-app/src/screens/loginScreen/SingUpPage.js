@@ -3,21 +3,17 @@ import Avatar from '@material-ui/core/Avatar';
 import Button from '@material-ui/core/Button';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import TextField from '@material-ui/core/TextField';
-import InputLabel from '@material-ui/core/InputLabel';
-import Select from '@material-ui/core/Select';
 import Link from '@material-ui/core/Link';
 import Grid from '@material-ui/core/Grid';
 import Box from '@material-ui/core/Box';
-import FormControlLabel from '@material-ui/core/FormControlLabel';
 import Typography from '@material-ui/core/Typography';
 import { makeStyles } from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
-import NumberFormat from 'react-number-format';
 import PropTypes from 'prop-types';
 import MaskedInput from 'react-text-mask';
-
-
-import { FormControl, FormLabel, Input, Radio, RadioGroup } from '@material-ui/core';
+import { FormControl, FormLabel} from '@material-ui/core';
+import Select from '@material-ui/core/Select';
+import MenuItem from '@material-ui/core/MenuItem';
 
 function Copyright() {
     return (
@@ -104,18 +100,18 @@ ZipCodeCustom.propTypes = {
 
 export default function SignUp() {
     const classes = useStyles();
-    const [genderValue, setGenderValue] = React.useState('female');
     const [birthdayValue, setBirthdayValue] = React.useState();
     const [phoneNumber, setValues] = React.useState('(  )    -    ');
     const [zipCodeValue, setZipCode] = React.useState();
-
-    const handleGenderChange = (event) => {
-        setGenderValue(event.target.value);
-    };
+    const [gender, setGender] = React.useState("N/A");
 
     const handlePhoneNumChange = (event) => {
         setValues(event.target.value);
     };
+
+    const selectGender = event => {
+        setGender(event.target.value)
+    }
 
     const handleZipChange = (event) => {
         setZipCode(event.target.value);
@@ -128,7 +124,7 @@ export default function SignUp() {
     const onSubmitHandler = (event) => {
         event.preventDefault();
         console.log(
-            "genderValue: " + genderValue +
+            "gender: " + gender +
             "\nPhone Number: " + phoneNumber +
             "\nZip Code: " + zipCodeValue +
             "\nDOB: " + birthdayValue
@@ -237,13 +233,19 @@ export default function SignUp() {
                             />
                         </Grid>
                         <Grid item xs={12} sm={6}>
-                            <FormControl component="fieldset">
+                            <FormControl className={classes.formControl}>
                                 <FormLabel component="legend">Gender</FormLabel>
-                                <RadioGroup aria-label="gender" name="gender1" value={genderValue} onChange={handleGenderChange}>
-                                    <FormControlLabel value="female" control={<Radio />} label="Female" />
-                                    <FormControlLabel value="male" control={<Radio />} label="Male" />
-                                    <FormControlLabel value="other" control={<Radio />} label="Other" />
-                                </RadioGroup>
+                                <Select
+                                  labelId="demo-simple-select-label"
+                                  id="demo-simple-select"
+                                  value={gender}
+                                  onChange={selectGender}
+                                >
+                                    <MenuItem value={"N/A"}>_</MenuItem>
+                                    <MenuItem value={"Male"}>Male</MenuItem>
+                                    <MenuItem value={"Female"}>Female</MenuItem>
+                                    <MenuItem value={"Non-Binary"}>Non-Binary</MenuItem>
+                                </Select>
                             </FormControl>
                         </Grid>
                         <Grid item xs={12} sm={6}>
@@ -251,7 +253,7 @@ export default function SignUp() {
                                 id="date"
                                 label="Date of Birth"
                                 type="date"
-                                className={classes.textField, classes.date}
+                                className={classes.textField + " " + classes.date}
                                 InputLabelProps={{
                                     shrink: true,
                                 }}
