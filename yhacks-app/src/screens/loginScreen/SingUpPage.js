@@ -14,6 +14,10 @@ import MaskedInput from 'react-text-mask';
 import { FormControl, FormLabel} from '@material-ui/core';
 import Select from '@material-ui/core/Select';
 import MenuItem from '@material-ui/core/MenuItem';
+import {connect} from "react-redux"
+import {withRouter} from "react-router";
+import * as actions from "../../store/actions/auth";
+
 
 function Copyright() {
     return (
@@ -98,12 +102,42 @@ ZipCodeCustom.propTypes = {
     inputRef: PropTypes.func.isRequired,
 };
 
-export default function SignUp() {
+function SignUp(props) {
+    if(localStorage.getItem("token") && !props.token) {
+        props.checkState()
+    }
+
+    // props.checkState()
     const classes = useStyles();
+    const [firstName, setFirstName] = React.useState("")
+    const [lastName, setLastName] = React.useState("")
+    const [email, setEmail] = React.useState("")
+    const [password1, setPassword1] = React.useState("")
+    const [password2, setPassword2] = React.useState("")
     const [birthdayValue, setBirthdayValue] = React.useState();
     const [phoneNumber, setValues] = React.useState('(  )    -    ');
     const [zipCodeValue, setZipCode] = React.useState();
     const [gender, setGender] = React.useState("N/A");
+
+    const handleFirstNameChange = event => {
+        setFirstName(event.target.value)
+    }
+
+    const handleLastNameChange = event => {
+        setLastName(event.target.value)
+    }
+
+    const handleEmailChange = event => {
+        setEmail(event.target.value)
+    }
+
+    const handlePassword1Change = event => {
+        setPassword1(event.target.value)
+    }
+
+    const handlePassword2Change = event => {
+        setPassword2(event.target.value)
+    }
 
     const handlePhoneNumChange = (event) => {
         setValues(event.target.value);
@@ -121,14 +155,17 @@ export default function SignUp() {
         setBirthdayValue(event.target.value)
     };
 
+
+
     const onSubmitHandler = (event) => {
         event.preventDefault();
-        console.log(
-            "gender: " + gender +
-            "\nPhone Number: " + phoneNumber +
-            "\nZip Code: " + zipCodeValue +
-            "\nDOB: " + birthdayValue
-        );
+        props.signUp(firstName, lastName, email,
+                 birthdayValue, phoneNumber, gender, zipCodeValue, password1, password2)
+        while(props.loading) {
+            props.checkState()
+        }
+        console.log(localStorage.getItem("email_errors"))
+        console.log(localStorage.getItem("password_errors"))
     }
 
     return (
@@ -152,6 +189,8 @@ export default function SignUp() {
                                 id="firstName"
                                 label="First Name"
                                 autoFocus
+                                value={firstName}
+                                onChange={handleFirstNameChange}
                             />
                         </Grid>
                         <Grid item xs={12} sm={6}>
@@ -164,6 +203,8 @@ export default function SignUp() {
                                 label="Last Name"
                                 name="lastName"
                                 autoComplete="lname"
+                                value={lastName}
+                                onChange={handleLastNameChange}
                             />
                         </Grid>
                         <Grid item xs={12}>
@@ -176,6 +217,8 @@ export default function SignUp() {
                                 label="Email Address"
                                 name="email"
                                 autoComplete="email"
+                                value={email}
+                                onChange={handleEmailChange}
                             />
                         </Grid>
                         <Grid item xs={12}>
@@ -189,6 +232,8 @@ export default function SignUp() {
                                 type="password"
                                 id="password"
                                 autoComplete="current-password"
+                                value={password1}
+                                onChange={handlePassword1Change}
                             />
                         </Grid>
                         <Grid item xs={12}>
@@ -202,6 +247,8 @@ export default function SignUp() {
                                 type="password"
                                 id="confirmedPassword"
                                 autoComplete="current-password"
+                                value={password2}
+                                onChange={handlePassword2Change}
                             />
                         </Grid>
                         <Grid item xs={12} sm={6}>
@@ -209,7 +256,7 @@ export default function SignUp() {
                                 variant="outlined"
                                 fullWidth
                                 label="Phone Number"
-                                value={phoneNumber.textmask}
+                                value={phoneNumber}
                                 onChange={handlePhoneNumChange}
                                 name="numberformat"
                                 id="formatted-numberformat-input"
@@ -223,13 +270,10 @@ export default function SignUp() {
                                 variant="outlined"
                                 fullWidth
                                 label="Zip Code"
-                                value={phoneNumber.textmask}
+                                value={zipCodeValue}
                                 onChange={handleZipChange}
                                 name="numberformat"
                                 id="formatted-numberformat-input"
-                                InputProps={{
-                                    inputComponent: ZipCodeCustom,
-                                }}
                             />
                         </Grid>
                         <Grid item xs={12} sm={6}>
@@ -293,3 +337,25 @@ export default function SignUp() {
         </Container>
     );
 }
+
+const mapStateToProps = state => {
+    return {
+        loading: state.loading,
+        error: state.error,
+        token: state.token
+    }
+}
+
+const mapDispatchToProps = dispatch => {
+    return{
+        signUp: (first_name, last_name, email,
+                 birth_day, phone, gender, zipcode,
+                 password1, password2) => dispatch(actions.authSignUp(
+                                                            first_name, last_name, email,
+                                                            birth_day, phone, gender, zipcode,
+                                                            password1, password2)),
+        checkState: () => dispatch(actions.checkState())
+    }
+}
+
+export default withRouter(connect(mapStateToProps, mapDispatchToProps)(SignUp))

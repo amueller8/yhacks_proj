@@ -9,6 +9,10 @@ import Box from '@material-ui/core/Box';
 import Typography from '@material-ui/core/Typography';
 import { makeStyles } from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
+import {connect} from "react-redux"
+import {withRouter} from "react-router";
+import * as actions from "../../store/actions/auth";
+
 
 function Copyright() {
     return (
@@ -53,8 +57,29 @@ const useStyles = makeStyles((theme) => ({
     },
 }));
 
-export default function SignUp() {
+function Login(props) {
+    if(localStorage.getItem("token") && !props.token) {
+        props.checkState()
+    }
     const classes = useStyles();
+    const [email, setEmail] = React.useState("")
+    const [password, setPassword] = React.useState("")
+
+    const handleEmailChange = event => {
+        setEmail(event.target.value)
+    }
+
+    const handlePasswordChange = event => {
+        setPassword(event.target.value)
+    }
+
+    const handleSubmit = event => {
+        event.preventDefault()
+        props.login(email, password)
+        while(props.loading) {
+            props.checkState()
+        }
+    }
 
     return (
         <Container component="main" maxWidth="xs">
@@ -62,7 +87,7 @@ export default function SignUp() {
             <div className={classes.paper}>
                 <Avatar>:)</Avatar>
                 <Typography component="h1" variant="h5">
-                    Sign up
+                    Sign in
         </Typography>
                 <form className={classes.form} noValidate>
                     <Grid container spacing={2}>
@@ -75,6 +100,8 @@ export default function SignUp() {
                                 label="Email Address"
                                 name="email"
                                 autoComplete="email"
+                                value={email}
+                                onChange={handleEmailChange}
                             />
                         </Grid>
                         <Grid item xs={12}>
@@ -87,6 +114,8 @@ export default function SignUp() {
                                 type="password"
                                 id="password"
                                 autoComplete="current-password"
+                                value={password}
+                                onChange={handlePasswordChange}
                             />
                         </Grid>
                     </Grid>
@@ -96,12 +125,13 @@ export default function SignUp() {
                         variant="contained"
                         color="primary"
                         className={classes.submit}
+                        onClick={handleSubmit}
                     >
                         Sign In
                         </Button>
                     <Grid container justify="flex-end">
                         <Grid item>
-                            <Link href="/signup" variant="body2">
+                            <Link href={"/signup"} variant="body2">
                                 New User? Create an account here.
                             </Link>
                         </Grid>
@@ -114,3 +144,19 @@ export default function SignUp() {
         </Container>
     );
 }
+const mapStateToProps = state => {
+    return {
+        loading: state.loading,
+        error: state.error,
+        token: state.token
+    }
+}
+
+const mapDispatchToProps = dispatch => {
+    return{
+        login: (email, password) => dispatch(actions.authLogin(email, password)),
+        checkState: () => dispatch(actions.checkState()),
+    }
+}
+
+export default withRouter(connect(mapStateToProps, mapDispatchToProps)(Login))

@@ -1,23 +1,42 @@
 import React from 'react';
-import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
-
-
-import { LandingScreen } from '../screens/landingScreen';
+import {Switch, Route} from 'react-router';
+import {BrowserRouter as Router } from "react-router-dom"
+import {connect} from "react-redux"
+import LandingScreen  from '../screens/landingScreen';
 import SignUp from '../screens/loginScreen/SingUpPage';
 import LoginPage from '../screens/loginScreen/LoginPage';
+import ReconnectingWebSocket from "reconnecting-websocket";
+
 
 function Routes(props) {
-  return (
-    <div>
-      <Router>
-        <Switch>
-          <Route exact path="/login" component={LoginPage} />
-          <Route exact path="/signup" component={SignUp} />
-          <Route exact path={"/"} component={LandingScreen} />
-        </Switch>
-      </Router>
-    </div>
-  );
+    const socket = props.socket
+    socket.onopen = e => {
+        console.log('socket open')
+    }
+    socket.onclose = e => {
+        console.log('socket close')
+    }
+    socket.onerror = e => {
+        console.log(e)
+    }
+    return (
+        <div>
+            <Router>
+                <Switch>
+                    <Route exact path="/login"><LoginPage {...props}/></Route>
+                    <Route exact path="/signup"><SignUp {...props}/></Route>
+                    <Route exact path={"/"}><LandingScreen {...props}/></Route>
+                </Switch>
+            </Router>
+        </div>
+    );
+}
+const mapStateToProps = state => {
+    const endpoint = "ws://localhost:8000/ws/"
+    let socket = new ReconnectingWebSocket(endpoint)
+    return {
+        socket: socket
+    }
 }
 
-export default Routes;
+export default connect(mapStateToProps, null)(Routes);

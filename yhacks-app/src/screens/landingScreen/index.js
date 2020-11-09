@@ -27,7 +27,7 @@ const styles = {
 
 }
 
-export const LandingScreen = () => {
+const LandingScreen = () => {
     return(
         <div style={ styles.layout}>
             <Box>
@@ -43,3 +43,5 @@ export const LandingScreen = () => {
         </div>
     )
 }
+
+export default LandingScreen;
