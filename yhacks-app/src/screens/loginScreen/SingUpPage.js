@@ -109,7 +109,7 @@ export default function SignUp() {
         setValues(event.target.value);
     };
 
-    const selectGender = event => {
+    const handleGenderChange = event => {
         setGender(event.target.value)
     }
 
@@ -239,12 +239,19 @@ export default function SignUp() {
                                   labelId="demo-simple-select-label"
                                   id="demo-simple-select"
                                   value={gender}
-                                  onChange={selectGender}
+                                  onChange={handleGenderChange}
                                 >
                                     <MenuItem value={"N/A"}>_</MenuItem>
                                     <MenuItem value={"Male"}>Male</MenuItem>
                                     <MenuItem value={"Female"}>Female</MenuItem>
                                     <MenuItem value={"Non-Binary"}>Non-Binary</MenuItem>
+                                    <MenuItem value={"Transgender"}>Transgender</MenuItem>
+                                    <MenuItem value={"Intersex"}>Intersex</MenuItem>
+                                    <MenuItem
+                                        value={"I prefer not to say"}
+                                    >
+                                        I prefer not to say
+                                    </MenuItem>
                                 </Select>
                             </FormControl>
                         </Grid>
