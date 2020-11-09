@@ -1,0 +1,6 @@
+{
+  "dependencies": {
+    "react-number-format": "^4.4.1",
+    "react-text-mask": "^5.4.3"
+  }
+}

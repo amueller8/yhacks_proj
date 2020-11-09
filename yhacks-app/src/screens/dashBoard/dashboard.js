@@ -46,23 +46,13 @@ const test_community = {
   
   }
 
-export const LandingScreen = () => {
+export const Dashboard = () => {
     return(
         <div style={ styles.layout}>
             
             <Typography variant="h1">traction</Typography>
             
-            <Box display='flex' flexDirection="column" alignItems='center'>
-            <Link to="/login" style={styles.link}>
-            <Button fullWidth="true" size='large' pt={2} style={styles.button}>
-            take action
-            </Button>
-            </Link>
-            </Box>
             <Grid container spacing = {3}>
-                <Grid item xs={4}>
-                    <CommunityCard list={test_community} ></CommunityCard>
-                </Grid>
                 <Grid item xs={4}>
                     <CommunityCard list={test_community} ></CommunityCard>
                 </Grid>
