@@ -12,9 +12,12 @@ import FormControlLabel from '@material-ui/core/FormControlLabel';
 import Typography from '@material-ui/core/Typography';
 import { makeStyles } from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
+import NumberFormat from 'react-number-format';
+import PropTypes from 'prop-types';
+import MaskedInput from 'react-text-mask';
 
 
-import { FormControl, FormLabel, Radio, RadioGroup } from '@material-ui/core';
+import { FormControl, FormLabel, Input, Radio, RadioGroup } from '@material-ui/core';
 
 function Copyright() {
     return (
@@ -59,18 +62,78 @@ const useStyles = makeStyles((theme) => ({
     },
 }));
 
+function TextMaskCustom(props) {
+    const { inputRef, ...other } = props;
+
+    return (
+        <MaskedInput
+            {...other}
+            ref={(ref) => {
+                inputRef(ref ? ref.inputElement : null);
+            }}
+            mask={['(', /[1-9]/, /\d/, /\d/, ')', ' ', /\d/, /\d/, /\d/, '-', /\d/, /\d/, /\d/, /\d/]}
+            placeholderChar={'\u2000'}
+            showMask
+        />
+    );
+}
+
+function ZipCodeCustom(props) {
+    const { inputRef, ...other } = props;
+
+    return (
+        <MaskedInput
+            {...other}
+            ref={(ref) => {
+                inputRef(ref ? ref.inputElement : null);
+            }}
+            mask={[/\d/, /\d/, /\d/, /\d/, /\d/]}
+            placeholderChar={'\u2000'}
+            showMask
+        />
+    );
+}
+
+TextMaskCustom.propTypes = {
+    inputRef: PropTypes.func.isRequired,
+};
+
+ZipCodeCustom.propTypes = {
+    inputRef: PropTypes.func.isRequired,
+};
+
 export default function SignUp() {
     const classes = useStyles();
     const [genderValue, setGenderValue] = React.useState('female');
-    const [phoneValue, setPhoneValue] = React.useState('');
+    const [birthdayValue, setBirthdayValue] = React.useState();
+    const [phoneNumber, setValues] = React.useState('(  )    -    ');
+    const [zipCodeValue, setZipCode] = React.useState();
 
     const handleGenderChange = (event) => {
         setGenderValue(event.target.value);
     };
 
-    const handlePhoneChange = (event) => {
-        setPhoneValue(event.target.value);
+    const handlePhoneNumChange = (event) => {
+        setValues(event.target.value);
     };
+
+    const handleZipChange = (event) => {
+        setZipCode(event.target.value);
+    };
+
+    const handleDOBChange = (event) => {
+        setBirthdayValue(event.target.value)
+    };
+
+    const onSubmitHandler = (event) => {
+        event.preventDefault();
+        console.log(
+            "genderValue: " + genderValue +
+            "\nPhone Number: " + phoneNumber +
+            "\nZip Code: " + zipCodeValue +
+            "\nDOB: " + birthdayValue
+        );
+    }
 
     return (
         <Container component="main" maxWidth="xs">
@@ -79,7 +142,7 @@ export default function SignUp() {
                 <Avatar>:)</Avatar>
                 <Typography component="h1" variant="h5">
                     Sign up
-        </Typography>
+                </Typography>
                 <form className={classes.form} noValidate>
                     <Grid container spacing={2}>
                         <Grid item xs={12} sm={6}>
@@ -137,7 +200,7 @@ export default function SignUp() {
                                 variant="outlined"
                                 required
                                 fullWidth
-                                name="password"
+                                name="Confirmed Password"
                                 placeholder="Retype the secret here."
                                 label="Confirmed Password"
                                 type="password"
@@ -145,17 +208,32 @@ export default function SignUp() {
                                 autoComplete="current-password"
                             />
                         </Grid>
-                        <Grid item xs={12}>
+                        <Grid item xs={12} sm={6}>
                             <TextField
                                 variant="outlined"
-                                required
                                 fullWidth
-                                name="phoneNumber"
                                 label="Phone Number"
-                                placeholder="123-456-7890"
-                                type="password"
-                                id="confirmedPassword"
-                                autoComplete="current-password"
+                                value={phoneNumber.textmask}
+                                onChange={handlePhoneNumChange}
+                                name="numberformat"
+                                id="formatted-numberformat-input"
+                                InputProps={{
+                                    inputComponent: TextMaskCustom,
+                                }}
+                            />
+                        </Grid>
+                        <Grid item xs={12} sm={6}>
+                            <TextField
+                                variant="outlined"
+                                fullWidth
+                                label="Zip Code"
+                                value={phoneNumber.textmask}
+                                onChange={handleZipChange}
+                                name="numberformat"
+                                id="formatted-numberformat-input"
+                                InputProps={{
+                                    inputComponent: ZipCodeCustom,
+                                }}
                             />
                         </Grid>
                         <Grid item xs={12} sm={6}>
@@ -173,11 +251,11 @@ export default function SignUp() {
                                 id="date"
                                 label="Date of Birth"
                                 type="date"
-                                defaultValue="2017-05-24"
                                 className={classes.textField, classes.date}
                                 InputLabelProps={{
                                     shrink: true,
                                 }}
+                                onChange={handleDOBChange}
                             />
                         </Grid>
                     </Grid>
@@ -187,6 +265,7 @@ export default function SignUp() {
                         variant="contained"
                         color="primary"
                         className={classes.submit}
+                        onClick={onSubmitHandler}
                     >
                         Sign Up
                     </Button>
