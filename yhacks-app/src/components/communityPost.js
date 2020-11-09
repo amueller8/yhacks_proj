@@ -41,6 +41,7 @@ const useStyles = makeStyles({
   link: {
     textDecoration: 'none',
     color: 'white',
+    width: '100%',
 
   },
   description: {
@@ -82,11 +83,13 @@ export default function CommunityCard(props) {
         </CardContent>
       </CardActionArea>
       <CardActions>
+      <Link href={list.communityUrl} className={classes.link}>
         <Button size="small" color="primary" className = {classes.button}>
-            <Link href={list.communityUrl} className={classes.link}>
+            
                 <span>View</span>
-            </Link>
+            
         </Button>
+        </Link>
       </CardActions>
     </Card>
   );
