@@ -1,24 +1,22 @@
 import React from 'react';
 import {Box, Typography, Button, Input} from '@material-ui/core';
-import {Link} from 'react-router-dom';
 import CommunityCard from '../../components/communityPost.js';
 import Grid from '@material-ui/core/Grid';
+import {connect} from "react-redux"
+import {Redirect} from "react-router";
+import {withRouter} from "react-router";
+import * as actions from "../../store/actions/auth";
 
-//accordion
-import Accordion from '@material-ui/core/Accordion';
-import AccordionSummary from '@material-ui/core/AccordionSummary';
-import AccordionDetails from '@material-ui/core/AccordionDetails';
-//import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 
 const styles = {
     layout: {
         backgroundColor: '#CDEDF6',
-        height: '100%', // this lowkey doesn't do anything rip 
+        height: '100%', // this lowkey doesn't do anything rip
         color: 'white',
         /*display: 'flex',*/
         justifyContent: 'center',
         alignItems: 'center',
-        paddingBottom: '100%',
+        paddingBottom: '10%',
     },
     link: {
 
@@ -38,8 +36,6 @@ const styles = {
         height: "5vh",
 
     }
-    
-
 
 }
 
@@ -49,64 +45,27 @@ const test_community = {
     communityUrl: "/login",
     imageSrc: "testimage.png",
     communityDescription: "This is just an example description of a community."
-  
+
   }
 
-const test_category = {
-    name: "Environmental Activism",
-    created: "Nov 2020",
-    communities: [test_community, test_community, test_community, test_community, test_community],
-    imageSrc: "testimage.png",
-    categoryDescription: "Description of category."
+const Dashboard = (props) => {
+    if(localStorage.getItem("token") && !props.token) {
+        props.checkState()
+    }
+    else if(!localStorage.getItem("token") || !(localStorage.getItem("token") === props.token)) {
+        return <Redirect push to="/login" />
+    }
 
-
-}
-
-const category_to_community = (props) => {
-    const list = props.list
-
-    var communities = props.communities
-    var communitiesList = communities.map(function(community){
-                    return <Grid item xs={4}>
-                            <CommunityCard list={community} ></CommunityCard>
-                            </Grid>
-                    })
-
-        return  <Grid container spacing = {3}>{ communitiesList } </Grid>
-
-
-}
-// props could go in here i can make it a seperate component later
-export const Dashboard = () => {
-    //const list = props.list
+    const handleLogout = event => {
+        event.preventDefault()
+        props.logout()
+    }
 
     return(
         <div style={ styles.layout}>
-            
-            <Accordion>
-            <AccordionSummary
-            expandIcon={
-            //<ExpandMoreIcon />
-            "*"
-        }
 
-            aria-controls="panel1a-content"
-            id="panel1a-header">
-            <Typography>{test_category.name}</Typography>
-            </AccordionSummary>
-        <AccordionDetails>
-          <Typography>
-            {test_category.categoryDescription}
-          </Typography>
-
-        {category_to_community(test_category)}
-
-        </AccordionDetails>
-        </Accordion>
-
-            {/*
             <Typography variant="h1">traction</Typography>
-            
+
             <Grid container spacing = {3}>
                 <Grid item xs={4}>
                     <CommunityCard list={test_community} ></CommunityCard>
@@ -117,13 +76,32 @@ export const Dashboard = () => {
                 <Grid item xs={4}>
                     <CommunityCard list={test_community} ></CommunityCard>
                 </Grid>
-                
+                <button onClick={handleLogout}>
+                    Logout
+                </button>
             </Grid>
 
-            */}
+
 
 
         </div>
- 
+
     )
 }
+
+const mapStateToProps = state => {
+    return {
+        loading: state.loading,
+        error: state.error,
+        token: state.token
+    }
+}
+
+const mapDispatchToProps = dispatch => {
+    return{
+        checkState: () => dispatch(actions.checkState()),
+        logout: () => dispatch(actions.logout())
+    }
+}
+
+export default withRouter(connect(mapStateToProps, mapDispatchToProps)(Dashboard))
