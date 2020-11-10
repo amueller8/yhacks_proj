@@ -7,8 +7,6 @@ import SignUp from '../screens/loginScreen/SingUpPage';
 import LoginPage from '../screens/loginScreen/LoginPage';
 import ReconnectingWebSocket from "reconnecting-websocket";
 import Dashboard from "../screens/dashBoard/dashBoard";
-
-
 function Routes(props) {
     const socket = props.socket
     socket.onopen = e => {
@@ -20,7 +18,6 @@ function Routes(props) {
     socket.onerror = e => {
         console.log(e)
     }
-
     return (
         <div>
             <Router>
@@ -41,5 +38,4 @@ const mapStateToProps = state => {
         socket: socket
     }
 }
-
 export default connect(mapStateToProps, null)(Routes);

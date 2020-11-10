@@ -18,10 +18,17 @@ import Link from '@material-ui/core/Link';
 
 const useStyles = makeStyles({
   root: {
+<<<<<<< HEAD
     maxWidth: 345,
     marginLeft: '5%',
     marginRight: '5%',
 
+=======
+    maxWidth: 345, 
+    marginLeft: '5%',
+    marginRight: '5%',
+    
+>>>>>>> origin/main
   },
   media: {
     height: 140,
@@ -85,9 +92,15 @@ export default function CommunityCard(props) {
       <CardActions>
       <Link href={list.communityUrl} className={classes.link}>
         <Button size="small" color="primary" className = {classes.button}>
+<<<<<<< HEAD
 
                 <span>View</span>
 
+=======
+            
+                <span>View</span>
+            
+>>>>>>> origin/main
         </Button>
         </Link>
       </CardActions>

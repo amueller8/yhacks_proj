@@ -1,7 +1,6 @@
 import React from 'react';
 import {Box, Typography, Button} from '@material-ui/core';
 import {Link} from 'react-router-dom';
-
 const styles = {
     layout: {
         height: "100%",
@@ -24,9 +23,7 @@ const styles = {
         color: '#FFFFFF',
         textTransform: 'lowercase',
     }
-
 }
-
 const LandingScreen = () => {
     return(
         <div style={ styles.layout}>
@@ -43,5 +40,4 @@ const LandingScreen = () => {
         </div>
     )
 }
-
 export default LandingScreen;
