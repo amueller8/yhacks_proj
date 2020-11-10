@@ -23,9 +23,11 @@ export const authSuccess = token => {
 }
 
 export const authFail = error => {
+    localStorage.removeItem("token")
     return {
         type: actionTypes.AUTH_FAIL,
-        error: error
+        error: error,
+        token: null,
     }
 }
 
@@ -82,7 +84,7 @@ export const authLogin = (email, password) => {
 
                 // if no error retrieve token; check if token was give and put it in local storage
                 const token = data.token
-                if (token){
+                if (token) {
                     localStorage.setItem("token", token)
                     dispatch(authSuccess(token))
                 }

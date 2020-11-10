@@ -10,7 +10,7 @@ import Typography from '@material-ui/core/Typography';
 import { makeStyles } from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
 import {connect} from "react-redux"
-import {withRouter} from "react-router";
+import {Redirect, withRouter} from "react-router";
 import * as actions from "../../store/actions/auth";
 
 
@@ -58,12 +58,16 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 function Login(props) {
+
     if(localStorage.getItem("token") && !props.token) {
         props.checkState()
     }
+
     const classes = useStyles();
     const [email, setEmail] = React.useState("")
     const [password, setPassword] = React.useState("")
+    const [errorMessage, setErrorMessage] = React.useState("")
+    const [errorType, setErrorType] = React.useState("")
 
     const handleEmailChange = event => {
         setEmail(event.target.value)
@@ -75,10 +79,30 @@ function Login(props) {
 
     const handleSubmit = event => {
         event.preventDefault()
+
         props.login(email, password)
-        while(props.loading) {
-            props.checkState()
-        }
+
+        setTimeout(() => {
+            const errorType = localStorage.getItem("errorType")
+            setErrorType(errorType)
+            if (errorType && localStorage.hasOwnProperty("authError")) {
+                const errorMessage = localStorage.getItem("authError")
+                setErrorMessage(errorMessage)
+                console.log(errorType, ": ", errorMessage)
+            }
+            else if(errorType && localStorage.hasOwnProperty("serverError")) {
+                const errorMessage = localStorage.getItem("serverError")
+                setErrorMessage(errorMessage)
+                console.log(errorType, ": ", errorMessage)
+            }
+            else if(localStorage.getItem("token") === props.token) {
+                return <Redirect push to="/dashboard" />
+            }
+        }, 300)
+
+    }
+    if(localStorage.getItem("token") === props.token && props.token) {
+        return <Redirect to="/dashboard" />
     }
 
     return (
@@ -93,6 +117,7 @@ function Login(props) {
                     <Grid container spacing={2}>
                         <Grid item xs={12}>
                             <TextField
+                                error={errorType === "1" || errorType === "4"}
                                 variant="outlined"
                                 required
                                 fullWidth
@@ -102,10 +127,18 @@ function Login(props) {
                                 autoComplete="email"
                                 value={email}
                                 onChange={handleEmailChange}
+                                helperText= {
+                                    errorType  === "1" || errorType === "4"
+                                        ?
+                                    errorMessage
+                                        :
+                                    ""
+                                }
                             />
                         </Grid>
                         <Grid item xs={12}>
                             <TextField
+                                error={errorType === "2"}
                                 variant="outlined"
                                 required
                                 fullWidth
@@ -116,6 +149,13 @@ function Login(props) {
                                 autoComplete="current-password"
                                 value={password}
                                 onChange={handlePasswordChange}
+                                helperText= {
+                                    errorType  === "2"
+                                        ?
+                                    errorMessage
+                                        :
+                                    ""
+                                }
                             />
                         </Grid>
                     </Grid>

@@ -4,25 +4,25 @@ import {Link} from 'react-router-dom';
 
 const styles = {
     layout: {
+        height: "100%",
+        width: "100%",
         backgroundColor: '#CDEDF6',
         color: 'white',
         justifyContent: 'center',
         alignItems: 'center',
-        marginTop: "15%",
+        paddingBottom: "100%"
     },
     link: {
         textDecoration: 'none',
     },
     button: {
-        width: '20vw',
-        height: '10vh',
-        marginTop: '30%',
-        marginBottom: '30%',
+        width: '150px',
+        height: '50px',
+        margin: "5%",
         borderRadius: '0px',
         backgroundColor: '#78A1BB',
         color: '#FFFFFF',
         textTransform: 'lowercase',
-        fontSize: "3vw"
     }
 
 }

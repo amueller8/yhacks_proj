@@ -15,7 +15,7 @@ import { FormControl, FormLabel} from '@material-ui/core';
 import Select from '@material-ui/core/Select';
 import MenuItem from '@material-ui/core/MenuItem';
 import {connect} from "react-redux"
-import {withRouter} from "react-router";
+import {Redirect, withRouter} from "react-router";
 import * as actions from "../../store/actions/auth";
 
 
@@ -107,7 +107,6 @@ function SignUp(props) {
         props.checkState()
     }
 
-    // props.checkState()
     const classes = useStyles();
     const [firstName, setFirstName] = React.useState("")
     const [lastName, setLastName] = React.useState("")
@@ -118,6 +117,11 @@ function SignUp(props) {
     const [phoneNumber, setValues] = React.useState('(  )    -    ');
     const [zipCodeValue, setZipCode] = React.useState();
     const [gender, setGender] = React.useState("N/A");
+    const [emailErrors, setEmailErrors] = React.useState("")
+    const [passwordErrors, setPasswordErrors] = React.useState("")
+    const [birthDayErrors, setBirthDayErrors] = React.useState("")
+    const [phoneErrors, setPhoneErrors] = React.useState("")
+
 
     const handleFirstNameChange = event => {
         setFirstName(event.target.value)
@@ -155,8 +159,6 @@ function SignUp(props) {
         setBirthdayValue(event.target.value)
     };
 
-
-
     const onSubmitHandler = (event) => {
         event.preventDefault();
         props.signUp(firstName, lastName, email,
@@ -164,8 +166,16 @@ function SignUp(props) {
         while(props.loading) {
             props.checkState()
         }
-        console.log(localStorage.getItem("email_errors"))
-        console.log(localStorage.getItem("password_errors"))
+        setTimeout( () => {
+            setEmailErrors(localStorage.getItem("email_errors"))
+            setPasswordErrors(localStorage.getItem("password_errors"))
+            setBirthDayErrors(localStorage.getItem("birth_day_errors"))
+            setPhoneErrors(localStorage.getItem("phone_errors"))
+        }, 400)
+    }
+
+    if(localStorage.getItem("token") === props.token && props.token) {
+        return <Redirect to="/dashboard" />
     }
 
     return (
@@ -209,6 +219,7 @@ function SignUp(props) {
                         </Grid>
                         <Grid item xs={12}>
                             <TextField
+                                error={emailErrors.length > 0}
                                 variant="outlined"
                                 required
                                 fullWidth
@@ -219,10 +230,12 @@ function SignUp(props) {
                                 autoComplete="email"
                                 value={email}
                                 onChange={handleEmailChange}
+                                helperText={emailErrors}
                             />
                         </Grid>
                         <Grid item xs={12}>
                             <TextField
+                                error={passwordErrors.length > 0}
                                 variant="outlined"
                                 required
                                 fullWidth
@@ -234,10 +247,12 @@ function SignUp(props) {
                                 autoComplete="current-password"
                                 value={password1}
                                 onChange={handlePassword1Change}
+                                helperText={passwordErrors}
                             />
                         </Grid>
                         <Grid item xs={12}>
                             <TextField
+                                error={passwordErrors.length > 0}
                                 variant="outlined"
                                 required
                                 fullWidth
@@ -253,6 +268,7 @@ function SignUp(props) {
                         </Grid>
                         <Grid item xs={12} sm={6}>
                             <TextField
+                                error={!!phoneErrors.length > 0}
                                 variant="outlined"
                                 fullWidth
                                 label="Phone Number"
@@ -260,6 +276,7 @@ function SignUp(props) {
                                 onChange={handlePhoneNumChange}
                                 name="numberformat"
                                 id="formatted-numberformat-input"
+                                helperText={phoneErrors}
                                 InputProps={{
                                     inputComponent: TextMaskCustom,
                                 }}
@@ -301,10 +318,12 @@ function SignUp(props) {
                         </Grid>
                         <Grid item xs={12} sm={6}>
                             <TextField
+                                error={birthDayErrors.length > 0}
                                 id="date"
                                 label="Date of Birth"
                                 type="date"
                                 className={classes.textField + " " + classes.date}
+                                helperText={birthDayErrors}
                                 InputLabelProps={{
                                     shrink: true,
                                 }}

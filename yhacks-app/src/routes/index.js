@@ -1,11 +1,12 @@
 import React from 'react';
-import {Switch, Route} from 'react-router';
+import {Switch, Route, Redirect} from 'react-router';
 import {BrowserRouter as Router } from "react-router-dom"
 import {connect} from "react-redux"
 import LandingScreen  from '../screens/landingScreen';
 import SignUp from '../screens/loginScreen/SingUpPage';
 import LoginPage from '../screens/loginScreen/LoginPage';
 import ReconnectingWebSocket from "reconnecting-websocket";
+import Dashboard from "../screens/dashBoard/dashBoard";
 
 
 function Routes(props) {
@@ -19,6 +20,7 @@ function Routes(props) {
     socket.onerror = e => {
         console.log(e)
     }
+
     return (
         <div>
             <Router>
@@ -26,6 +28,7 @@ function Routes(props) {
                     <Route exact path="/login"><LoginPage {...props}/></Route>
                     <Route exact path="/signup"><SignUp {...props}/></Route>
                     <Route exact path={"/"}><LandingScreen {...props}/></Route>
+                    <Route exact path={"/dashboard"} component={Dashboard} />
                 </Switch>
             </Router>
         </div>
