@@ -13,6 +13,13 @@ import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
 import ListItemText from '@material-ui/core/ListItemText';
 import Link from '@material-ui/core/Link';
+
+/*
+import LockIcon from '@material-ui/icons/Lock';
+import LockOpenIcon from '@material-ui/icons/LockOpen';
+*/
+
+
 const useStyles = makeStyles({
   root: {
     maxWidth: 345,
@@ -42,6 +49,24 @@ const useStyles = makeStyles({
     textAlign: 'left',
   },
 });
+
+const is_private = (props) => {
+
+  
+  if (props.private === 1) {
+    //return <LockOpenIcon></LockOpenIcon>
+    return "Private"
+  }
+  else {
+    //return <LockIcon></LockIcon>
+    return "View"
+  }
+
+
+
+}
+
+
 export default function CommunityCard(props) {
   const classes = useStyles();
   const list = props.list;
@@ -51,8 +76,9 @@ export default function CommunityCard(props) {
         <CardMedia
           className={classes.media}
           // get the image from the assets folder based on the list passed into the object
-          image ={require(`../assets/${list.imageSrc}`)}
-          title="community image" //can fix this to be {list.imageTitle} or something later
+          //image ={require(`../assets/${list.imageSrc}`)}
+          //title="community image" //can fix this to be {list.imageTitle} or something later
+          
         />
         <CardContent>
           {/*
@@ -66,14 +92,17 @@ export default function CommunityCard(props) {
           <Divider component="li" />
           </List>
           <Typography variant="body2" color="textSecondary" component="p" className = {classes.description}>
-            {list.communityDescription} {/* community will need description */}
+          {/*{is_private(list.private)}
+          if we do icons it would probably be here? or replacing image...
+          */}
+          {list.communityDescription} {/* community will need description */}
           </Typography>
         </CardContent>
       </CardActionArea>
       <CardActions>
       <Link href={list.communityUrl} className={classes.link}>
         <Button size="small" color="primary" className = {classes.button}>
-                <span>View</span>
+                <span> {is_private(list.private)} </span>
         </Button>
         </Link>
       </CardActions>
