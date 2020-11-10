@@ -7,28 +7,17 @@ import CardContent from '@material-ui/core/CardContent';
 import CardMedia from '@material-ui/core/CardMedia';
 import Button from '@material-ui/core/Button';
 import Typography from '@material-ui/core/Typography';
-
 // divider stuff
 import Divider from '@material-ui/core/Divider';
 import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
 import ListItemText from '@material-ui/core/ListItemText';
-
 import Link from '@material-ui/core/Link';
-
 const useStyles = makeStyles({
   root: {
-<<<<<<< HEAD
     maxWidth: 345,
     marginLeft: '5%',
     marginRight: '5%',
-
-=======
-    maxWidth: 345, 
-    marginLeft: '5%',
-    marginRight: '5%',
-    
->>>>>>> origin/main
   },
   media: {
     height: 140,
@@ -38,7 +27,6 @@ const useStyles = makeStyles({
     width: '100%',
     maxWidth: 360,
     //background color later or whatever
-
   },
   button:{
     backgroundColor: "orange",
@@ -49,21 +37,14 @@ const useStyles = makeStyles({
     textDecoration: 'none',
     color: 'white',
     width: '100%',
-
   },
   description: {
     textAlign: 'left',
-
   },
 });
-
-
-
-
 export default function CommunityCard(props) {
   const classes = useStyles();
   const list = props.list;
-
   return (
     <Card className={classes.root}>
       <CardActionArea>
@@ -92,15 +73,7 @@ export default function CommunityCard(props) {
       <CardActions>
       <Link href={list.communityUrl} className={classes.link}>
         <Button size="small" color="primary" className = {classes.button}>
-<<<<<<< HEAD
-
                 <span>View</span>
-
-=======
-            
-                <span>View</span>
-            
->>>>>>> origin/main
         </Button>
         </Link>
       </CardActions>
