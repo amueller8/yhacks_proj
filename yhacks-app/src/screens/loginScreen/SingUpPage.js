@@ -3,21 +3,21 @@ import Avatar from '@material-ui/core/Avatar';
 import Button from '@material-ui/core/Button';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import TextField from '@material-ui/core/TextField';
-import InputLabel from '@material-ui/core/InputLabel';
-import Select from '@material-ui/core/Select';
 import Link from '@material-ui/core/Link';
 import Grid from '@material-ui/core/Grid';
 import Box from '@material-ui/core/Box';
-import FormControlLabel from '@material-ui/core/FormControlLabel';
 import Typography from '@material-ui/core/Typography';
 import { makeStyles } from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
-import NumberFormat from 'react-number-format';
 import PropTypes from 'prop-types';
 import MaskedInput from 'react-text-mask';
+import { FormControl, FormLabel} from '@material-ui/core';
+import Select from '@material-ui/core/Select';
+import MenuItem from '@material-ui/core/MenuItem';
+import {connect} from "react-redux"
+import {Redirect, withRouter} from "react-router";
+import * as actions from "../../store/actions/auth";
 
-
-import { FormControl, FormLabel, Input, Radio, RadioGroup } from '@material-ui/core';
 
 function Copyright() {
     return (
@@ -102,20 +102,54 @@ ZipCodeCustom.propTypes = {
     inputRef: PropTypes.func.isRequired,
 };
 
-export default function SignUp() {
+function SignUp(props) {
+    if(localStorage.getItem("token") && !props.token) {
+        props.checkState()
+    }
+
     const classes = useStyles();
-    const [genderValue, setGenderValue] = React.useState('female');
+    const [firstName, setFirstName] = React.useState("")
+    const [lastName, setLastName] = React.useState("")
+    const [email, setEmail] = React.useState("")
+    const [password1, setPassword1] = React.useState("")
+    const [password2, setPassword2] = React.useState("")
     const [birthdayValue, setBirthdayValue] = React.useState();
     const [phoneNumber, setValues] = React.useState('(  )    -    ');
     const [zipCodeValue, setZipCode] = React.useState();
+    const [gender, setGender] = React.useState("N/A");
+    const [emailErrors, setEmailErrors] = React.useState("")
+    const [passwordErrors, setPasswordErrors] = React.useState("")
+    const [birthDayErrors, setBirthDayErrors] = React.useState("")
+    const [phoneErrors, setPhoneErrors] = React.useState("")
 
-    const handleGenderChange = (event) => {
-        setGenderValue(event.target.value);
-    };
+
+    const handleFirstNameChange = event => {
+        setFirstName(event.target.value)
+    }
+
+    const handleLastNameChange = event => {
+        setLastName(event.target.value)
+    }
+
+    const handleEmailChange = event => {
+        setEmail(event.target.value)
+    }
+
+    const handlePassword1Change = event => {
+        setPassword1(event.target.value)
+    }
+
+    const handlePassword2Change = event => {
+        setPassword2(event.target.value)
+    }
 
     const handlePhoneNumChange = (event) => {
         setValues(event.target.value);
     };
+
+    const handleGenderChange = event => {
+        setGender(event.target.value)
+    }
 
     const handleZipChange = (event) => {
         setZipCode(event.target.value);
@@ -127,12 +161,21 @@ export default function SignUp() {
 
     const onSubmitHandler = (event) => {
         event.preventDefault();
-        console.log(
-            "genderValue: " + genderValue +
-            "\nPhone Number: " + phoneNumber +
-            "\nZip Code: " + zipCodeValue +
-            "\nDOB: " + birthdayValue
-        );
+        props.signUp(firstName, lastName, email,
+                 birthdayValue, phoneNumber, gender, zipCodeValue, password1, password2)
+        while(props.loading) {
+            props.checkState()
+        }
+        setTimeout( () => {
+            setEmailErrors(localStorage.getItem("email_errors"))
+            setPasswordErrors(localStorage.getItem("password_errors"))
+            setBirthDayErrors(localStorage.getItem("birth_day_errors"))
+            setPhoneErrors(localStorage.getItem("phone_errors"))
+        }, 400)
+    }
+
+    if(localStorage.getItem("token") === props.token && props.token) {
+        return <Redirect to="/dashboard" />
     }
 
     return (
@@ -156,6 +199,8 @@ export default function SignUp() {
                                 id="firstName"
                                 label="First Name"
                                 autoFocus
+                                value={firstName}
+                                onChange={handleFirstNameChange}
                             />
                         </Grid>
                         <Grid item xs={12} sm={6}>
@@ -168,10 +213,13 @@ export default function SignUp() {
                                 label="Last Name"
                                 name="lastName"
                                 autoComplete="lname"
+                                value={lastName}
+                                onChange={handleLastNameChange}
                             />
                         </Grid>
                         <Grid item xs={12}>
                             <TextField
+                                error={emailErrors.length > 0}
                                 variant="outlined"
                                 required
                                 fullWidth
@@ -180,10 +228,14 @@ export default function SignUp() {
                                 label="Email Address"
                                 name="email"
                                 autoComplete="email"
+                                value={email}
+                                onChange={handleEmailChange}
+                                helperText={emailErrors}
                             />
                         </Grid>
                         <Grid item xs={12}>
                             <TextField
+                                error={passwordErrors.length > 0}
                                 variant="outlined"
                                 required
                                 fullWidth
@@ -193,10 +245,14 @@ export default function SignUp() {
                                 type="password"
                                 id="password"
                                 autoComplete="current-password"
+                                value={password1}
+                                onChange={handlePassword1Change}
+                                helperText={passwordErrors}
                             />
                         </Grid>
                         <Grid item xs={12}>
                             <TextField
+                                error={passwordErrors.length > 0}
                                 variant="outlined"
                                 required
                                 fullWidth
@@ -206,17 +262,21 @@ export default function SignUp() {
                                 type="password"
                                 id="confirmedPassword"
                                 autoComplete="current-password"
+                                value={password2}
+                                onChange={handlePassword2Change}
                             />
                         </Grid>
                         <Grid item xs={12} sm={6}>
                             <TextField
+                                error={!!phoneErrors.length > 0}
                                 variant="outlined"
                                 fullWidth
                                 label="Phone Number"
-                                value={phoneNumber.textmask}
+                                value={phoneNumber}
                                 onChange={handlePhoneNumChange}
                                 name="numberformat"
                                 id="formatted-numberformat-input"
+                                helperText={phoneErrors}
                                 InputProps={{
                                     inputComponent: TextMaskCustom,
                                 }}
@@ -227,31 +287,43 @@ export default function SignUp() {
                                 variant="outlined"
                                 fullWidth
                                 label="Zip Code"
-                                value={phoneNumber.textmask}
+                                value={zipCodeValue}
                                 onChange={handleZipChange}
                                 name="numberformat"
                                 id="formatted-numberformat-input"
-                                InputProps={{
-                                    inputComponent: ZipCodeCustom,
-                                }}
                             />
                         </Grid>
                         <Grid item xs={12} sm={6}>
-                            <FormControl component="fieldset">
+                            <FormControl className={classes.formControl}>
                                 <FormLabel component="legend">Gender</FormLabel>
-                                <RadioGroup aria-label="gender" name="gender1" value={genderValue} onChange={handleGenderChange}>
-                                    <FormControlLabel value="female" control={<Radio />} label="Female" />
-                                    <FormControlLabel value="male" control={<Radio />} label="Male" />
-                                    <FormControlLabel value="other" control={<Radio />} label="Other" />
-                                </RadioGroup>
+                                <Select
+                                  labelId="demo-simple-select-label"
+                                  id="demo-simple-select"
+                                  value={gender}
+                                  onChange={handleGenderChange}
+                                >
+                                    <MenuItem value={"N/A"}>_</MenuItem>
+                                    <MenuItem value={"Male"}>Male</MenuItem>
+                                    <MenuItem value={"Female"}>Female</MenuItem>
+                                    <MenuItem value={"Non-Binary"}>Non-Binary</MenuItem>
+                                    <MenuItem value={"Transgender"}>Transgender</MenuItem>
+                                    <MenuItem value={"Intersex"}>Intersex</MenuItem>
+                                    <MenuItem
+                                        value={"I prefer not to say"}
+                                    >
+                                        I prefer not to say
+                                    </MenuItem>
+                                </Select>
                             </FormControl>
                         </Grid>
                         <Grid item xs={12} sm={6}>
                             <TextField
+                                error={birthDayErrors.length > 0}
                                 id="date"
                                 label="Date of Birth"
                                 type="date"
-                                className={classes.textField, classes.date}
+                                className={classes.textField + " " + classes.date}
+                                helperText={birthDayErrors}
                                 InputLabelProps={{
                                     shrink: true,
                                 }}
@@ -284,3 +356,25 @@ export default function SignUp() {
         </Container>
     );
 }
+
+const mapStateToProps = state => {
+    return {
+        loading: state.loading,
+        error: state.error,
+        token: state.token
+    }
+}
+
+const mapDispatchToProps = dispatch => {
+    return{
+        signUp: (first_name, last_name, email,
+                 birth_day, phone, gender, zipcode,
+                 password1, password2) => dispatch(actions.authSignUp(
+                                                            first_name, last_name, email,
+                                                            birth_day, phone, gender, zipcode,
+                                                            password1, password2)),
+        checkState: () => dispatch(actions.checkState())
+    }
+}
+
+export default withRouter(connect(mapStateToProps, mapDispatchToProps)(SignUp))
