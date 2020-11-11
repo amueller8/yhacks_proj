@@ -14,6 +14,7 @@ import AccountCircle from '@material-ui/icons/AccountCircle';
 import MailIcon from '@material-ui/icons/Mail';
 import NotificationsIcon from '@material-ui/icons/Notifications';
 import MoreIcon from '@material-ui/icons/MoreVert';
+import ExitToAppIcon from '@material-ui/icons/ExitToApp';
 
 //accordion
 import Accordion from '@material-ui/core/Accordion';
@@ -208,8 +209,8 @@ function Dashboard(props) {
         return <Redirect push to="/login" />
     }
 
-    const handleLogout = event => {
-        event.preventDefault()
+    const handleLogout = (event) => {
+        event.preventDefault();
         props.logout()
     }
 
@@ -233,6 +234,11 @@ function Dashboard(props) {
         setMobileMoreAnchorEl(event.currentTarget);
     };
 
+    const addButtonHandler = event => {
+        event.preventDefault()
+        console.log("Add button")
+    };
+
     const category_to_accordion = (categories) => {
         let categoriesList = categories.map(function (category) {
             return (
@@ -252,7 +258,11 @@ function Dashboard(props) {
                         </AccordionSummary>
                         <Divider />
                         <AccordionActions>
-                            <Button size="small" color="primary">
+                            <Button
+                                size="small"
+                                color="primary"
+                                onClick={addButtonHandler}
+                            >
                                 Add
                             </Button>
                         </AccordionActions>
@@ -295,19 +305,11 @@ function Dashboard(props) {
         >
             <MenuItem>
                 <IconButton aria-label="show 4 new mails" color="inherit">
-                    <Badge badgeContent={4} color="secondary">
+                    <Badge color="secondary">
                         <MailIcon />
                     </Badge>
                 </IconButton>
                 <p>Messages</p>
-            </MenuItem>
-            <MenuItem>
-                <IconButton aria-label="show 11 new notifications" color="inherit">
-                    <Badge badgeContent={11} color="secondary">
-                        <NotificationsIcon />
-                    </Badge>
-                </IconButton>
-                <p>Notifications</p>
             </MenuItem>
             <MenuItem onClick={handleProfileMenuOpen}>
                 <IconButton
@@ -319,6 +321,17 @@ function Dashboard(props) {
                     <AccountCircle />
                 </IconButton>
                 <p>Profile</p>
+            </MenuItem>
+            <MenuItem onClick={handleLogout}>
+                <IconButton
+                    aria-label="account of current user"
+                    aria-controls="primary-search-account-menu"
+                    aria-haspopup="true"
+                    color="inherit"
+                >
+                    <ExitToAppIcon />
+                </IconButton>
+                <p>Logout</p>
             </MenuItem>
         </Menu>
     );
@@ -365,6 +378,16 @@ function Dashboard(props) {
                                 color="inherit"
                             >
                                 <AccountCircle />
+                            </IconButton>
+                            <IconButton
+                                edge="end"
+                                aria-label="account of current user"
+                                aria-controls={menuId}
+                                aria-haspopup="true"
+                                onClick={handleLogout}
+                                color="inherit"
+                            >
+                                <ExitToAppIcon />
                             </IconButton>
                         </div>
                         <div className={classes.sectionMobile}>
