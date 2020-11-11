@@ -48,10 +48,10 @@ const useStyles = makeStyles({
 
 const is_private = (props) => {
   if (props.private) {
-    return <LockOpenIcon/>
+    return <LockIcon/>
   }
   else {
-    return <LockIcon/>
+    return <LockOpenIcon/>
   }
 
 }

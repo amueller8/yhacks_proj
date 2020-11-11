@@ -26,22 +26,13 @@ import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 let linkHead = "http://localhost:8000/api"
 
 
-const category_to_community = (category) => {
+const category_to_community = (communities, categoryName) => {
     let communitiesList = []
-    for (let community of category["communities"]) {
+    for (let community of communities) {
         if (!!community) {
             communitiesList.push(
                 <Grid item xs={4}>
-                    <CommunityCard list={community} private={false} linkHead={linkHead} category={category.name} />
-                </Grid>
-            )
-        }
-    }
-    for (let community of category["private_communities"]) {
-        if (!!community) {
-            communitiesList.push(
-                <Grid item xs={4}>
-                    <CommunityCard list={community} private={true} linkHead={linkHead} category={category.name} />
+                    <CommunityCard list={community} private={false} linkHead={linkHead} category={categoryName} />
                 </Grid>
             )
         }
@@ -148,39 +139,6 @@ const styles = {
 
 }
 
-
-const test_community = {
-    name: "Test Community",
-    created: "[creation date]",
-    communityUrl: "/login",
-    imageSrc: "testimage.png",
-    communityDescription: "This is just an example description of a community.",
-    private: 0,
-
-}
-
-const test_community2 = {
-    name: "Test Community 2",
-    created: "[creation date]",
-    communityUrl: "/login",
-    imageSrc: "testimage.png",
-    communityDescription: "This is just another example description of a community.",
-    private: 1,
-
-}
-
-// const test_category = {
-//     name: "Environmental Activism",
-//     created: "Nov 2020",
-//     communities: [test_community, test_community, test_community2, test_community2, test_community],
-//     imageSrc: "testimage.png",
-//     categoryDescription: "Description of category."
-// }
-//
-// const categories_list_test = {
-//     categories: [test_category, test_category, test_category],
-// }
-
 function Dashboard(props) {
     const classes = useStyles();
     const [categories, setCategories] = React.useState([])
@@ -257,6 +215,10 @@ function Dashboard(props) {
                             </div>
                         </AccordionSummary>
                         <Divider />
+                        <div>
+                            <h1>Open Communities</h1>
+                        </div>
+                        <Divider />
                         <AccordionActions>
                             <Button
                                 size="small"
@@ -267,7 +229,24 @@ function Dashboard(props) {
                             </Button>
                         </AccordionActions>
                         <AccordionDetails className={classes.details}>
-                            {category_to_community(category)}
+                            {category_to_community(category["communities"], category["name"])}
+                        </AccordionDetails>
+                        <Divider />
+                        <div>
+                            <h1>Private Communities</h1>
+                        </div>
+                        <Divider />
+                        <AccordionActions>
+                            <Button
+                                size="small"
+                                color="primary"
+                                onClick={addButtonHandler}
+                            >
+                                Add
+                            </Button>
+                        </AccordionActions>
+                        <AccordionDetails className={classes.details}>
+                            {category_to_community(category["private_communities"], category["name"])}
                         </AccordionDetails>
                     </Accordion>
                 </div>
@@ -407,29 +386,6 @@ function Dashboard(props) {
                 {renderMenu}
             </div>
             {category_to_accordion(categories)}
-            {/*
-            <Accordion>
-
-            <AccordionSummary
-            expandIcon={
-            //<ExpandMoreIcon />
-            "*"
-            }
-
-            aria-controls="panel1a-content"
-            id="panel1a-header">
-            <Typography>{test_category.name}</Typography>
-            </AccordionSummary>
-            <AccordionDetails>
-            <Typography>
-            {test_category.categoryDescription}
-            </Typography>
-
-            {category_to_community(test_category)}
-
-            </AccordionDetails>
-        </Accordion>
-        */}
         </div>
 
     )
