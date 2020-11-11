@@ -13,12 +13,8 @@ import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
 import ListItemText from '@material-ui/core/ListItemText';
 import Link from '@material-ui/core/Link';
-
-/*
-import LockIcon from '@material-ui/icons/Lock';
 import LockOpenIcon from '@material-ui/icons/LockOpen';
-*/
-
+import LockIcon from '@material-ui/icons/Lock';
 
 const useStyles = makeStyles({
   root: {
@@ -51,18 +47,12 @@ const useStyles = makeStyles({
 });
 
 const is_private = (props) => {
-
-  
-  if (props.private === 1) {
-    //return <LockOpenIcon></LockOpenIcon>
-    return "Private"
+  if (props.private) {
+    return <LockOpenIcon/>
   }
   else {
-    //return <LockIcon></LockIcon>
-    return "View"
+    return <LockIcon/>
   }
-
-
 
 }
 
@@ -87,7 +77,7 @@ export default function CommunityCard(props) {
           </Typography>*/}
           <List className = {classes.listItem}>
           <ListItem >
-          <ListItemText primary={list.name} secondary= {list.created}/> {/* community name, creation date */}
+          <ListItemText primary={list[0]} secondary= {list[2]}/> {/* community name, creation date */}
           </ListItem>
           <Divider component="li" />
           </List>
@@ -95,14 +85,14 @@ export default function CommunityCard(props) {
           {/*{is_private(list.private)}
           if we do icons it would probably be here? or replacing image...
           */}
-          {list.communityDescription} {/* community will need description */}
+          {list[1]} {/* community will need description */}
           </Typography>
         </CardContent>
       </CardActionArea>
       <CardActions>
-      <Link href={list.communityUrl} className={classes.link}>
+      <Link href={`${props.linkHead}/community/${props.category}/${list[0]}/`} className={classes.link}>
         <Button size="small" color="primary" className = {classes.button}>
-                <span> {is_private(list.private)} </span>
+                <span> {is_private(props)} </span>
         </Button>
         </Link>
       </CardActions>
