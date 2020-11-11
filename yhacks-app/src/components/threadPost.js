@@ -4,6 +4,7 @@ import Typography from '@material-ui/core/Typography';
 import Container from '@material-ui/core/Container';
 import Avatar from '@material-ui/core/Avatar';
 import Box from '@material-ui/core/Box';
+import Grid from '@material-ui/core/Grid'
 
 import Divider from '@material-ui/core/Divider';
 import List from '@material-ui/core/List';
@@ -13,9 +14,14 @@ import Link from '@material-ui/core/Link';
 
 const useStyles = makeStyles({
     root: {
-      maxWidth: '50%',
+      maxWidth: '80%',
       marginLeft: '5%',
       marginRight: '5%',
+      textAlign: 'left',
+      padding: '3%',
+      borderRadius: '2',
+      color: 'black',
+      backgroundColor: 'whitesmoke',
     },
     /*
     media: {
@@ -24,7 +30,10 @@ const useStyles = makeStyles({
     },*/
     listItem: {
       width: '100%',
-      maxWidth: 360,
+      alignContent: 'left',
+      textAlign: 'left',
+      
+      
       //background color later or whatever
     },
     button:{
@@ -40,6 +49,13 @@ const useStyles = makeStyles({
     description: {
       textAlign: 'left',
     },
+    username: {
+      position: 'relative',
+      //textAlign: 'center',
+      left: '1em',
+      
+      
+    }
   });
   
 
@@ -51,22 +67,24 @@ const useStyles = makeStyles({
   export default function ThreadPost(props) {
     const classes = useStyles();
     const list = props.list;
-    return (
-    <Box className = {classes.root}>
 
-    <span>
-    <Avatar>{list.user.name[0].toUpperCase()}</Avatar>
-    <Typography>{list.user.name}</Typography>
-    </span>
+    return (
+    <Grid className = {classes.root}>
+
     
-    <List className = {classes.listItem}>
+    
+    <List >
+    <ListItem className = {classes.listItem}>
+    <Avatar >{list.user.name[0].toUpperCase()}</Avatar>
+    <ListItemText className = {classes.username} primary={list.user.name}/>
+    </ListItem>
     <Divider component="li" />
     </List>
 
-    <Typography variant = 'overline'>{list.date}</Typography>
-    <Typography variant = 'body1'>{list.memo}</Typography>
+    <Typography className = {classes.username} variant = 'overline'>{list.date}</Typography>
+    <Typography className = {classes.username} variant = 'body1'>{list.memo}</Typography>
 
-    </Box>
+    </Grid>
 
     );
   }
