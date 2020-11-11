@@ -7,7 +7,63 @@ import {Redirect} from "react-router";
 import {withRouter} from "react-router";
 import * as actions from "../../store/actions/auth";
 
+//accordion
+import Accordion from '@material-ui/core/Accordion';
+import AccordionSummary from '@material-ui/core/AccordionSummary';
+import AccordionDetails from '@material-ui/core/AccordionDetails';
+//import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 
+
+const category_to_community = (props) => {
+    const list = props.list
+
+    var communities = props.communities
+    var communitiesList = communities.map(function(community){
+                    return <Grid item xs={4}>
+                            <CommunityCard list={community} ></CommunityCard>
+                            </Grid>
+                    })
+
+        return  <Grid container spacing = {3}>{ communitiesList } </Grid>
+
+
+}
+
+const category_to_accordion = (props) => {
+    const list = props.list
+
+    var categories = props.categories
+    var categoriesList = categories.map(function(category){
+                    return(
+                        <Accordion>
+                        <AccordionSummary expandIcon={
+                        //<ExpandMoreIcon />
+                        "*"
+                        }
+
+                        aria-controls="panel1a-content"
+                        id="panel1a-header">
+                        <Typography>{category.name}</Typography>
+                        </AccordionSummary>
+                        <AccordionDetails>
+                        <Typography>
+                        {category.categoryDescription}
+                        </Typography>
+
+                        {category_to_community(category)}
+
+
+                        </AccordionDetails>
+                        </Accordion>
+
+                    )  
+
+                    })
+
+        return  <Box>{ categoriesList } </Box>
+
+
+}
 const styles = {
     layout: {
         backgroundColor: '#CDEDF6',
@@ -16,7 +72,7 @@ const styles = {
         /*display: 'flex',*/
         justifyContent: 'center',
         alignItems: 'center',
-        paddingBottom: '10%',
+        paddingBottom: '100%',
     },
     link: {
 
@@ -39,14 +95,42 @@ const styles = {
 
 }
 
+
 const test_community = {
     name: "Test Community",
     created: "[creation date]",
     communityUrl: "/login",
     imageSrc: "testimage.png",
-    communityDescription: "This is just an example description of a community."
+    communityDescription: "This is just an example description of a community.",
+    private: 0,
 
   }
+
+  const test_community2 = {
+    name: "Test Community 2",
+    created: "[creation date]",
+    communityUrl: "/login",
+    imageSrc: "testimage.png",
+    communityDescription: "This is just another example description of a community.",
+    private: 1,
+
+  }
+
+  const test_category = {
+    name: "Environmental Activism",
+    created: "Nov 2020",
+    communities: [test_community, test_community, test_community2, test_community2, test_community],
+    imageSrc: "testimage.png",
+    categoryDescription: "Description of category."
+
+
+}
+
+const categories_list_test = {
+    categories: [test_category, test_category, test_category],
+}
+
+
 
 const Dashboard = (props) => {
     if(localStorage.getItem("token") && !props.token) {
@@ -66,20 +150,31 @@ const Dashboard = (props) => {
 
             <Typography variant="h1">traction</Typography>
 
-            <Grid container spacing = {3}>
-                <Grid item xs={4}>
-                    <CommunityCard list={test_community} ></CommunityCard>
-                </Grid>
-                <Grid item xs={4}>
-                    <CommunityCard list={test_community} ></CommunityCard>
-                </Grid>
-                <Grid item xs={4}>
-                    <CommunityCard list={test_community} ></CommunityCard>
-                </Grid>
-                <button onClick={handleLogout}>
-                    Logout
-                </button>
-            </Grid>
+            {category_to_accordion(categories_list_test)}
+
+            {/*
+            <Accordion>
+
+            <AccordionSummary
+            expandIcon={
+            //<ExpandMoreIcon />
+            "*"
+            }
+
+            aria-controls="panel1a-content"
+            id="panel1a-header">
+            <Typography>{test_category.name}</Typography>
+            </AccordionSummary>
+            <AccordionDetails>
+            <Typography>
+            {test_category.categoryDescription}
+            </Typography>
+
+            {category_to_community(test_category)}
+
+            </AccordionDetails>
+        </Accordion>
+        */}
 
 
 
