@@ -1,5 +1,5 @@
-import React, { useEffect } from 'react';
-import { Box, Typography, Button, Input, AppBar, Toolbar, IconButton, MenuItem, Badge, makeStyles, fade, Menu, InputBase, Divider, AccordionActions } from '@material-ui/core';
+import React  from 'react';
+import { Box, Typography, Button, AppBar, Toolbar, IconButton, MenuItem, Badge, makeStyles, fade, Menu, InputBase, Divider, AccordionActions } from '@material-ui/core';
 import CommunityCard from '../../components/communityPost.js';
 import Grid from '@material-ui/core/Grid';
 import { connect } from "react-redux"
@@ -12,7 +12,6 @@ import MenuIcon from '@material-ui/icons/Menu';
 import SearchIcon from '@material-ui/icons/Search';
 import AccountCircle from '@material-ui/icons/AccountCircle';
 import MailIcon from '@material-ui/icons/Mail';
-import NotificationsIcon from '@material-ui/icons/Notifications';
 import MoreIcon from '@material-ui/icons/MoreVert';
 import ExitToAppIcon from '@material-ui/icons/ExitToApp';
 

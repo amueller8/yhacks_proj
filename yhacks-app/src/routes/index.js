@@ -7,6 +7,8 @@ import SignUp from '../screens/loginScreen/SingUpPage';
 import LoginPage from '../screens/loginScreen/LoginPage';
 import ReconnectingWebSocket from "reconnecting-websocket";
 import Dashboard from "../screens/dashBoard/dashboard";
+import Thread from "../components/threadChat";
+
 function Routes(props) {
   const socket = props.socket
   socket.onopen = e => {
@@ -25,7 +27,8 @@ function Routes(props) {
           <Route exact path="/login"><LoginPage {...props} /></Route>
           <Route exact path="/signup"><SignUp {...props} /></Route>
           <Route exact path={"/"}><LandingScreen {...props} /></Route>
-          <Route exact path={"/dashboard"} component={Dashboard} />
+          <Route exact path={"/dashboard"}><Dashboard {...props}/></Route>
+          <Route exact path={"/thread/"}><Thread {...props}/></Route>
         </Switch>
       </Router>
     </div>
