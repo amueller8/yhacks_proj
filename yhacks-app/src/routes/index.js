@@ -6,7 +6,7 @@ import LandingScreen from '../screens/landingScreen';
 import SignUp from '../screens/loginScreen/SingUpPage';
 import LoginPage from '../screens/loginScreen/LoginPage';
 import ReconnectingWebSocket from "reconnecting-websocket";
-import Dashboard from "../screens/dashBoard/dashboard";
+import Dashboard from "../screens/dashBoard/dashBoard";
 import Thread from "../components/threadChat";
 import UserDashboard from '../screens/dashBoard/UserDashboard';
 
@@ -40,7 +40,8 @@ const mapStateToProps = state => {
   const endpoint = "ws://localhost:8000/ws/"
   let socket = new ReconnectingWebSocket(endpoint)
   return {
-    socket: socket
+    socket: socket,
+    linkHead: "http://localhost:8000/api"
   }
 }
 export default connect(mapStateToProps, null)(Routes);
