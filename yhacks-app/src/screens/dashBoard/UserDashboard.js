@@ -99,10 +99,23 @@ ZipCodeCustom.propTypes = {
 export default function UserDashboard() {
     const classes = useStyles();
     const [disabled, setDisabled] = React.useState(true)
+    const [firstName, setFirstName] = React.useState("")
+    const [lastName, setLastName] = React.useState("")
+    const [email, setEmail] = React.useState("")
+    const [phoneNumber, setValues] = React.useState('(  )    -    ');
+    const [zipCodeValue, setZipCode] = React.useState();
+    const [gender, setGender] = React.useState("N/A");
+    const [birthdayValue, setBirthdayValue] = React.useState();
+    const [changed, setChanged] = React.useState([])
 
-    const onSubmitHandler = (event) => {
+    const buttonHandler = (event) => {
         event.preventDefault();
-        console.log("Update");
+        if (disabled){
+            setDisabled(false)
+        } else {
+            console.log("update")
+            setDisabled(true)
+        }
     };
 
     return (
@@ -212,7 +225,7 @@ export default function UserDashboard() {
                         variant="contained"
                         color="primary"
                         className={classes.submit}
-                        onClick={onSubmitHandler}
+                        onClick={buttonHandler}
                     >
                         {disabled?"Edit":"Update"}
                     </Button>
