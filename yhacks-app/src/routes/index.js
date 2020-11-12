@@ -40,7 +40,8 @@ const mapStateToProps = state => {
   const endpoint = "ws://localhost:8000/ws/"
   let socket = new ReconnectingWebSocket(endpoint)
   return {
-    socket: socket
+    socket: socket,
+    linkHead: "http://localhost:8000/api"
   }
 }
 export default connect(mapStateToProps, null)(Routes);

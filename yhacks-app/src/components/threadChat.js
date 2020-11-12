@@ -14,6 +14,8 @@ import TextField from '@material-ui/core/TextField';
 import * as actions from "../store/actions/auth";
 import {Redirect, withRouter} from "react-router";
 import {connect} from "react-redux";
+import {linkHead} from "../store/actions/auth"
+
 
 const useStyles = makeStyles((theme) => ({
   root: {

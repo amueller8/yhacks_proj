@@ -7,6 +7,7 @@ import { Redirect } from "react-router";
 import { withRouter } from "react-router";
 import * as actions from "../../store/actions/auth";
 import MyAppBar from "../../components/menuBar";
+import {linkHead} from "../../store/actions/auth"
 
 //accordion
 import Accordion from '@material-ui/core/Accordion';
@@ -14,8 +15,6 @@ import AccordionSummary from '@material-ui/core/AccordionSummary';
 import AccordionDetails from '@material-ui/core/AccordionDetails';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 
-// back end link head for any none socket proctored API calls
-let linkHead = "http://localhost:8000/api"
 
 
 const category_to_community = (communities, categoryName) => {

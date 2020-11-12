@@ -1,6 +1,8 @@
 import * as actionTypes from "./actionTypes"
 const targetLink = "http://localhost:8000/api/auth/"
 
+// back end link head for any none socket proctored API calls
+export let linkHead = "http://localhost:8000/api"
 
 export const authStart = () => {
     return {
