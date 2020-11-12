@@ -85,7 +85,7 @@ export const authLogin = (email, password) => {
                 // if no error retrieve token; check if token was give and put it in local storage
                 const token = data.token
                 if (token) {
-                    localStorage.setItem("token", token)
+                    localStorage.setItem("token", `Token ${token}`)
                     dispatch(authSuccess(token))
                 }
             })
@@ -130,7 +130,7 @@ export const authSignUp = (
                 // if no error retrieve token; check if token was give and put it in local storage
                 const token = data.token
                 if (token) {
-                    localStorage.setItem("token", token)
+                    localStorage.setItem("token", `Token ${token}`)
                     dispatch(authSuccess(token))
                 }
             })
