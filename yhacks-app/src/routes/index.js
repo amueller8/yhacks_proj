@@ -6,7 +6,7 @@ import LandingScreen from '../screens/landingScreen';
 import SignUp from '../screens/loginScreen/SingUpPage';
 import LoginPage from '../screens/loginScreen/LoginPage';
 import ReconnectingWebSocket from "reconnecting-websocket";
-import Dashboard from "../screens/dashBoard/dashBoard";
+import Dashboard from "../screens/dashBoard/dashboard";
 import Thread from "../components/threadChat";
 import UserDashboard from '../screens/dashBoard/UserDashboard';
 
