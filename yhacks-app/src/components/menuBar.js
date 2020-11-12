@@ -185,14 +185,6 @@ const renderMobileMenu = (
             {isProfile?<Redirect push to={"/account"} />: <Redirect push to={"/dashboard"} />}
                 <AppBar position="static">
                     <Toolbar>
-                        <IconButton
-                            edge="start"
-                            className={classes.menuButton}
-                            color="inherit"
-                            aria-label="open drawer"
-                        >
-                            <MenuIcon />
-                        </IconButton>
                         <Typography className={classes.title} variant="h6" noWrap>
                             Website Name
                         </Typography>
