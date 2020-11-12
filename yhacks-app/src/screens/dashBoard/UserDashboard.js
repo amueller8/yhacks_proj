@@ -10,6 +10,7 @@ import Container from '@material-ui/core/Container';
 import { Button, Grid } from '@material-ui/core';
 import MaskedInput from 'react-text-mask';
 import PropTypes from 'prop-types';
+import MyAppBar from "../../components/menuBar";
 
 function Copyright() {
     return (
@@ -96,7 +97,7 @@ ZipCodeCustom.propTypes = {
     inputRef: PropTypes.func.isRequired,
 };
 
-export default function UserDashboard() {
+export default function UserDashboard(props) {
     const classes = useStyles();
     const [disabled, setDisabled] = React.useState(true)
     const [firstName, setFirstName] = React.useState("")
@@ -119,118 +120,121 @@ export default function UserDashboard() {
     };
 
     return (
-        <Container component="main" maxWidth="xs">
-            <CssBaseline />
-            <div className={classes.paper}>
-                <Avatar className={classes.avatar}>
-                    <LockOutlinedIcon />
-                </Avatar>
-                <Typography component="h1" variant="h5">
-                    Update your account
-                </Typography>
-                <form className={classes.form} noValidate>
-                    <Grid container spacing={2}>
-                        <Grid item xs={12} sm={6}>
-                            <TextField
-                                autoComplete="fname"
-                                name="firstName"
-                                variant="outlined"
-                                required
-                                fullWidth
-                                id="firstName"
-                                label="First Name"
-                                autoFocus
-                                disabled={disabled}
-                            />
+        <div>
+            <MyAppBar {...props} isProfile={true}/>
+            <Container component="main" maxWidth="xs">
+                <CssBaseline />
+                <div className={classes.paper}>
+                    <Avatar className={classes.avatar}>
+                        <LockOutlinedIcon />
+                    </Avatar>
+                    <Typography component="h1" variant="h5">
+                        Update your account
+                    </Typography>
+                    <form className={classes.form} noValidate>
+                        <Grid container spacing={2}>
+                            <Grid item xs={12} sm={6}>
+                                <TextField
+                                    autoComplete="fname"
+                                    name="firstName"
+                                    variant="outlined"
+                                    required
+                                    fullWidth
+                                    id="firstName"
+                                    label="First Name"
+                                    autoFocus
+                                    disabled={disabled}
+                                />
+                            </Grid>
+                            <Grid item xs={12} sm={6}>
+                                <TextField
+                                    autoComplete="lname"
+                                    name="lastName"
+                                    variant="outlined"
+                                    required
+                                    fullWidth
+                                    id="lastName"
+                                    label="Last Name"
+                                    autoFocus
+                                    disabled={disabled}
+                                />
+                            </Grid>
+                            <Grid item xs={12}>
+                                <TextField
+                                    autoComplete="email"
+                                    name="email"
+                                    variant="outlined"
+                                    required
+                                    fullWidth
+                                    id="email"
+                                    label="Email"
+                                    autoFocus
+                                    disabled={disabled}
+                                />
+                            </Grid>
+                            <Grid item xs={12} sm={6}>
+                                <TextField
+                                    // error={!!phoneErrors.length > 0}
+                                    variant="outlined"
+                                    fullWidth
+                                    label="Phone Number"
+                                    required
+                                    // value={phoneNumber}
+                                    // onChange={handlePhoneNumChange}
+                                    name="numberformat"
+                                    id="formatted-numberformat-input"
+                                    // helperText={phoneErrors}
+                                    InputProps={{
+                                        inputComponent: TextMaskCustom,
+                                    }}
+                                    disabled={disabled}
+                                />
+                            </Grid>
+                            <Grid item xs={12} sm={6}>
+                                <TextField
+                                    variant="outlined"
+                                    fullWidth
+                                    required
+                                    label="Zip Code"
+                                    // value={zipCodeValue}
+                                    // onChange={handleZipChange}
+                                    name="numberformat"
+                                    id="formatted-numberformat-input"
+                                    disabled={disabled}
+                                />
+                            </Grid>
+                            <Grid item xs={12} sm={6}>
+                                <TextField
+                                    // error={birthDayErrors.length > 0}
+                                    id="date"
+                                    label="Date of Birth"
+                                    type="date"
+                                    required
+                                    fullWidth
+                                    variant="outlined"
+                                    className={classes.textField + " " + classes.date}
+                                    // helperText={birthDayErrors}
+                                    InputLabelProps={{
+                                        shrink: true,
+                                    }}
+                                    disabled={disabled}
+                                // onChange={handleDOBChange}
+                                />
+                            </Grid>
                         </Grid>
-                        <Grid item xs={12} sm={6}>
-                            <TextField
-                                autoComplete="lname"
-                                name="lastName"
-                                variant="outlined"
-                                required
-                                fullWidth
-                                id="lastName"
-                                label="Last Name"
-                                autoFocus
-                                disabled={disabled}
-                            />
-                        </Grid>
-                        <Grid item xs={12}>
-                            <TextField
-                                autoComplete="email"
-                                name="email"
-                                variant="outlined"
-                                required
-                                fullWidth
-                                id="email"
-                                label="Email"
-                                autoFocus
-                                disabled={disabled}
-                            />
-                        </Grid>
-                        <Grid item xs={12} sm={6}>
-                            <TextField
-                                // error={!!phoneErrors.length > 0}
-                                variant="outlined"
-                                fullWidth
-                                label="Phone Number"
-                                required
-                                // value={phoneNumber}
-                                // onChange={handlePhoneNumChange}
-                                name="numberformat"
-                                id="formatted-numberformat-input"
-                                // helperText={phoneErrors}
-                                InputProps={{
-                                    inputComponent: TextMaskCustom,
-                                }}
-                                disabled={disabled}
-                            />
-                        </Grid>
-                        <Grid item xs={12} sm={6}>
-                            <TextField
-                                variant="outlined"
-                                fullWidth
-                                required
-                                label="Zip Code"
-                                // value={zipCodeValue}
-                                // onChange={handleZipChange}
-                                name="numberformat"
-                                id="formatted-numberformat-input"
-                                disabled={disabled}
-                            />
-                        </Grid>
-                        <Grid item xs={12} sm={6}>
-                            <TextField
-                                // error={birthDayErrors.length > 0}
-                                id="date"
-                                label="Date of Birth"
-                                type="date"
-                                required
-                                fullWidth
-                                variant="outlined"
-                                className={classes.textField + " " + classes.date}
-                                // helperText={birthDayErrors}
-                                InputLabelProps={{
-                                    shrink: true,
-                                }}
-                                disabled={disabled}
-                            // onChange={handleDOBChange}
-                            />
-                        </Grid>
-                    </Grid>
-                    <Button
-                        type="submit"
-                        fullWidth
-                        variant="contained"
-                        color="primary"
-                        className={classes.submit}
-                        onClick={buttonHandler}
-                    >
-                        {disabled?"Edit":"Update"}
-                    </Button>
-                </form>
-            </div>
-        </Container>
+                        <Button
+                            type="submit"
+                            fullWidth
+                            variant="contained"
+                            color="primary"
+                            className={classes.submit}
+                            onClick={buttonHandler}
+                        >
+                            {disabled?"Edit":"Update"}
+                        </Button>
+                    </form>
+                </div>
+            </Container>
+        </div>
     );
 }

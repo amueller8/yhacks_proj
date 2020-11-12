@@ -23,6 +23,7 @@ import {Redirect, withRouter} from "react-router";
 import {connect} from "react-redux";
 // Icons for the navigation bar
 
+
 const useStyles = makeStyles((theme) => ({
     grow: {
         flexGrow: 1,
@@ -99,12 +100,12 @@ function MyAppBar(props) {
 
     const [mobileMoreAnchorEl, setMobileMoreAnchorEl] = React.useState(null);
     const [anchorEl, setAnchorEl] = React.useState(null);
-    const [isProfile, setIsProfile] = React.useState(false)
+    const [isProfile, setIsProfile] = React.useState(!!props.isProfile)
     const isMenuOpen = Boolean(anchorEl);
     const isMobileMenuOpen = Boolean(mobileMoreAnchorEl);
 
     const handleProfileClick = () => {
-        setIsProfile(true)
+        setIsProfile(!isProfile)
     }
     const handleMobileMenuClose = () => {
         setMobileMoreAnchorEl(null);
@@ -163,7 +164,7 @@ const renderMobileMenu = (
             >
                 {!isProfile? <AccountCircle />: <DashboardIcon />}
             </IconButton>
-            <p>Profile</p>
+            <p>{isProfile? "Profile": "Dashboard"}</p>
         </MenuItem>
         <MenuItem onClick={handleLogout}>
             <IconButton
@@ -181,7 +182,7 @@ const renderMobileMenu = (
 
     return (
         <div className={classes.grow}>
-            {isProfile?<Redirect push to={"/account"} />: null}
+            {isProfile?<Redirect push to={"/account"} />: <Redirect push to={"/dashboard"} />}
                 <AppBar position="static">
                     <Toolbar>
                         <IconButton
