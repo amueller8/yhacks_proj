@@ -55,6 +55,9 @@ const useStyles = makeStyles((theme) => ({
 
 function TextMaskCustom(props) {
     const { inputRef, ...other } = props;
+    const data = {
+
+    }
 
     return (
         <MaskedInput
@@ -95,6 +98,7 @@ ZipCodeCustom.propTypes = {
 
 export default function UserDashboard() {
     const classes = useStyles();
+    const [disabled, setDisabled] = React.useState(true)
 
     const onSubmitHandler = (event) => {
         event.preventDefault();
@@ -123,6 +127,7 @@ export default function UserDashboard() {
                                 id="firstName"
                                 label="First Name"
                                 autoFocus
+                                disabled={disabled}
                             />
                         </Grid>
                         <Grid item xs={12} sm={6}>
@@ -135,6 +140,7 @@ export default function UserDashboard() {
                                 id="lastName"
                                 label="Last Name"
                                 autoFocus
+                                disabled={disabled}
                             />
                         </Grid>
                         <Grid item xs={12}>
@@ -147,6 +153,7 @@ export default function UserDashboard() {
                                 id="email"
                                 label="Email"
                                 autoFocus
+                                disabled={disabled}
                             />
                         </Grid>
                         <Grid item xs={12} sm={6}>
@@ -164,6 +171,7 @@ export default function UserDashboard() {
                                 InputProps={{
                                     inputComponent: TextMaskCustom,
                                 }}
+                                disabled={disabled}
                             />
                         </Grid>
                         <Grid item xs={12} sm={6}>
@@ -176,6 +184,7 @@ export default function UserDashboard() {
                                 // onChange={handleZipChange}
                                 name="numberformat"
                                 id="formatted-numberformat-input"
+                                disabled={disabled}
                             />
                         </Grid>
                         <Grid item xs={12} sm={6}>
@@ -192,6 +201,7 @@ export default function UserDashboard() {
                                 InputLabelProps={{
                                     shrink: true,
                                 }}
+                                disabled={disabled}
                             // onChange={handleDOBChange}
                             />
                         </Grid>
@@ -204,7 +214,7 @@ export default function UserDashboard() {
                         className={classes.submit}
                         onClick={onSubmitHandler}
                     >
-                        Update
+                        {disabled?"Edit":"Update"}
                     </Button>
                 </form>
             </div>
