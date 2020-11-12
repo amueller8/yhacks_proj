@@ -11,11 +11,11 @@ import { makeStyles } from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
 import PropTypes from 'prop-types';
 import MaskedInput from 'react-text-mask';
-import { FormControl, FormLabel} from '@material-ui/core';
+import { FormControl, FormLabel } from '@material-ui/core';
 import Select from '@material-ui/core/Select';
 import MenuItem from '@material-ui/core/MenuItem';
-import {connect} from "react-redux"
-import {Redirect, withRouter} from "react-router";
+import { connect } from "react-redux"
+import { Redirect, withRouter } from "react-router";
 import * as actions from "../../store/actions/auth";
 
 
@@ -103,7 +103,7 @@ ZipCodeCustom.propTypes = {
 };
 
 function SignUp(props) {
-    if(localStorage.getItem("token") && !props.token) {
+    if (localStorage.getItem("token") && !props.token) {
         props.checkState()
     }
 
@@ -162,11 +162,11 @@ function SignUp(props) {
     const onSubmitHandler = (event) => {
         event.preventDefault();
         props.signUp(firstName, lastName, email,
-                 birthdayValue, phoneNumber, gender, zipCodeValue, password1, password2)
-        while(props.loading) {
+            birthdayValue, phoneNumber, gender, zipCodeValue, password1, password2)
+        while (props.loading) {
             props.checkState()
         }
-        setTimeout( () => {
+        setTimeout(() => {
             setEmailErrors(localStorage.getItem("email_errors"))
             setPasswordErrors(localStorage.getItem("password_errors"))
             setBirthDayErrors(localStorage.getItem("birth_day_errors"))
@@ -174,7 +174,7 @@ function SignUp(props) {
         }, 400)
     }
 
-    if(localStorage.getItem("token") === props.token && props.token) {
+    if (localStorage.getItem("token") === props.token && props.token) {
         return <Redirect to="/dashboard" />
     }
 
@@ -273,6 +273,7 @@ function SignUp(props) {
                                 fullWidth
                                 label="Phone Number"
                                 value={phoneNumber}
+                                required
                                 onChange={handlePhoneNumChange}
                                 name="numberformat"
                                 id="formatted-numberformat-input"
@@ -286,6 +287,7 @@ function SignUp(props) {
                             <TextField
                                 variant="outlined"
                                 fullWidth
+                                required
                                 label="Zip Code"
                                 value={zipCodeValue}
                                 onChange={handleZipChange}
@@ -294,13 +296,32 @@ function SignUp(props) {
                             />
                         </Grid>
                         <Grid item xs={12} sm={6}>
+                            <TextField
+                                error={birthDayErrors.length > 0}
+                                id="date"
+                                label="Date of Birth"
+                                type="date"
+                                required
+                                variant="outlined"
+                                fullWidth
+                                className={classes.textField + " " + classes.date}
+                                helperText={birthDayErrors}
+                                InputLabelProps={{
+                                    shrink: true,
+                                }}
+                                onChange={handleDOBChange}
+                            />
+                        </Grid>
+                        <Grid item xs={12} sm={6}>
                             <FormControl className={classes.formControl}>
                                 <FormLabel component="legend">Gender</FormLabel>
                                 <Select
-                                  labelId="demo-simple-select-label"
-                                  id="demo-simple-select"
-                                  value={gender}
-                                  onChange={handleGenderChange}
+                                    labelId="demo-simple-select-label"
+                                    id="demo-simple-select"
+                                    value={gender}
+                                    required
+                                    fullWidth
+                                    onChange={handleGenderChange}
                                 >
                                     <MenuItem value={"N/A"}>_</MenuItem>
                                     <MenuItem value={"Male"}>Male</MenuItem>
@@ -315,20 +336,6 @@ function SignUp(props) {
                                     </MenuItem>
                                 </Select>
                             </FormControl>
-                        </Grid>
-                        <Grid item xs={12} sm={6}>
-                            <TextField
-                                error={birthDayErrors.length > 0}
-                                id="date"
-                                label="Date of Birth"
-                                type="date"
-                                className={classes.textField + " " + classes.date}
-                                helperText={birthDayErrors}
-                                InputLabelProps={{
-                                    shrink: true,
-                                }}
-                                onChange={handleDOBChange}
-                            />
                         </Grid>
                     </Grid>
                     <Button
@@ -366,13 +373,13 @@ const mapStateToProps = state => {
 }
 
 const mapDispatchToProps = dispatch => {
-    return{
+    return {
         signUp: (first_name, last_name, email,
-                 birth_day, phone, gender, zipcode,
-                 password1, password2) => dispatch(actions.authSignUp(
-                                                            first_name, last_name, email,
-                                                            birth_day, phone, gender, zipcode,
-                                                            password1, password2)),
+            birth_day, phone, gender, zipcode,
+            password1, password2) => dispatch(actions.authSignUp(
+                first_name, last_name, email,
+                birth_day, phone, gender, zipcode,
+                password1, password2)),
         checkState: () => dispatch(actions.checkState())
     }
 }
