@@ -1,4 +1,4 @@
-import React  from 'react';
+import React from 'react';
 import { Box, Typography, Button, makeStyles, fade, Divider, AccordionActions } from '@material-ui/core';
 import CommunityCard from '../../components/communityPost.js';
 import Grid from '@material-ui/core/Grid';
@@ -7,7 +7,7 @@ import { Redirect } from "react-router";
 import { withRouter } from "react-router";
 import * as actions from "../../store/actions/auth";
 import MyAppBar from "../../components/menuBar";
-import {linkHead} from "../../store/actions/auth"
+import { linkHead } from "../../store/actions/auth"
 
 //accordion
 import Accordion from '@material-ui/core/Accordion';
@@ -180,7 +180,7 @@ function Dashboard(props) {
                         </AccordionSummary>
                         <Divider />
                         <div>
-                            <h1>Open Communities</h1>
+                            <h1>Public Communities</h1>
                         </div>
                         <Divider />
                         <AccordionActions>
