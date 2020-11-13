@@ -78,12 +78,12 @@ const onClickHandler = (event) => {
 function CommunityPage(props) {
     const classes = useStyles();
 
-    if (localStorage.getItem("token") && !props.token) {
-        props.checkState()
-    }
-    else if (!localStorage.getItem("token") || !("Token " + (localStorage.getItem("token")) === props.token)) {
-        return <Redirect push to="/login" />
-    }
+    // if (localStorage.getItem("token") && !props.token) {
+    //     props.checkState()
+    // }
+    // else if (!localStorage.getItem("token") || !("Token " + (localStorage.getItem("token")) === props.token)) {
+    //     return <Redirect push to="/login" />
+    // }
     return (
         <React.Fragment>
             <CssBaseline />
@@ -130,9 +130,9 @@ function CommunityPage(props) {
                             <Typography>
                                 <div>
                                     <ul style={{ fontSize: '16px' }}>
-                                        <li> Name: Phone Number </li>
-                                        <li> Name: Phone Number </li>
-                                        <li> Name: Phone Number </li>
+                                        <li> Name: email address </li>
+                                        <li> Name: email address </li>
+                                        <li> Name: email address </li>
                                     </ul>
                                 </div>
                             </Typography>
@@ -150,11 +150,25 @@ function CommunityPage(props) {
                             <Typography>
                                 <div>
                                     <ul style={{ fontSize: '16px' }}>
-                                        <li> Name: Phone Number </li>
-                                        <li> Name: Phone Number </li>
-                                        <li> Name: Phone Number </li>
+                                        <li> Name: email address </li>
+                                        <li> Name: email address </li>
+                                        <li> Name: email address </li>
                                     </ul>
                                 </div>
+                            </Typography>
+                        </AccordionDetails>
+                    </Accordion>
+                    <Accordion>
+                        <AccordionSummary
+                            expandIcon={<ExpandMoreIcon />}
+                            aria-controls="panel1a-content"
+                            id="panel1a-header"
+                        >
+                            <Typography className={classes.heading}>Threads/Discussion</Typography>
+                        </AccordionSummary>
+                        <AccordionDetails>
+                            <Typography>
+                                Under construction, thank you for your patience.
                             </Typography>
                         </AccordionDetails>
                     </Accordion>
