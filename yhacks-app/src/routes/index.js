@@ -9,6 +9,7 @@ import ReconnectingWebSocket from "reconnecting-websocket";
 import Dashboard from "../screens/dashBoard/dashboard";
 import Thread from "../components/threadChat";
 import UserDashboard from '../screens/dashBoard/UserDashboard';
+import CommunityPage from '../screens/communityPage/communityPage';
 
 function Routes(props) {
   const socket = props.socket
@@ -30,6 +31,7 @@ function Routes(props) {
           <Route exact path={"/"}><LandingScreen {...props} /></Route>
           <Route exact path={"/dashboard"}><Dashboard {...props} /></Route>
           <Route exact path={"/account"}><UserDashboard {...props} /></Route>
+          <Route exact path={"/communityPage"}><CommunityPage {...props} /></Route>
           <Route exact path={"/thread/"}><Thread {...props} /></Route>
         </Switch>
       </Router>
