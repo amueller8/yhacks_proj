@@ -9,8 +9,8 @@ import Box from '@material-ui/core/Box';
 import Typography from '@material-ui/core/Typography';
 import { makeStyles } from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
-import {connect} from "react-redux"
-import {Redirect, withRouter} from "react-router";
+import { connect } from "react-redux"
+import { Redirect, withRouter } from "react-router";
 import * as actions from "../../store/actions/auth";
 
 
@@ -59,7 +59,7 @@ const useStyles = makeStyles((theme) => ({
 
 function Login(props) {
 
-    if(localStorage.getItem("token") && !props.token) {
+    if (localStorage.getItem("token") && !props.token) {
         props.checkState()
     }
 
@@ -90,18 +90,18 @@ function Login(props) {
                 setErrorMessage(errorMessage)
                 console.log(errorType, ": ", errorMessage)
             }
-            else if(errorType && localStorage.hasOwnProperty("serverError")) {
+            else if (errorType && localStorage.hasOwnProperty("serverError")) {
                 const errorMessage = localStorage.getItem("serverError")
                 setErrorMessage(errorMessage)
                 console.log(errorType, ": ", errorMessage)
             }
-            else if(localStorage.getItem("token") === props.token) {
+            else if (localStorage.getItem("token") === props.token) {
                 return <Redirect push to="/dashboard" />
             }
         }, 300)
 
     }
-    if(localStorage.getItem("token") === props.token && props.token) {
+    if (localStorage.getItem("token") === props.token && props.token) {
         return <Redirect to="/dashboard" />
     }
 
@@ -127,12 +127,12 @@ function Login(props) {
                                 autoComplete="email"
                                 value={email}
                                 onChange={handleEmailChange}
-                                helperText= {
-                                    errorType  === "1" || errorType === "4"
+                                helperText={
+                                    errorType === "1" || errorType === "4"
                                         ?
-                                    errorMessage
+                                        errorMessage
                                         :
-                                    ""
+                                        ""
                                 }
                             />
                         </Grid>
@@ -149,12 +149,12 @@ function Login(props) {
                                 autoComplete="current-password"
                                 value={password}
                                 onChange={handlePasswordChange}
-                                helperText= {
-                                    errorType  === "2"
+                                helperText={
+                                    errorType === "2"
                                         ?
-                                    errorMessage
+                                        errorMessage
                                         :
-                                    ""
+                                        ""
                                 }
                             />
                         </Grid>
@@ -193,7 +193,7 @@ const mapStateToProps = state => {
 }
 
 const mapDispatchToProps = dispatch => {
-    return{
+    return {
         login: (email, password) => dispatch(actions.authLogin(email, password)),
         checkState: () => dispatch(actions.checkState()),
     }

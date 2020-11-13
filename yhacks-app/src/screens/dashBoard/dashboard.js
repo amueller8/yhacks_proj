@@ -161,6 +161,10 @@ function Dashboard(props) {
         console.log("Add button")
     };
 
+    const communityClickHandler = event => {
+        return <Redirect to="/dashboard" />
+    }
+
     const category_to_accordion = (categories) => {
         let categoriesList = categories.map(function (category) {
             return (
@@ -192,7 +196,7 @@ function Dashboard(props) {
                                 Add
                             </Button>
                         </AccordionActions>
-                        <AccordionDetails className={classes.details}>
+                        <AccordionDetails className={classes.details} onClick={communityClickHandler}>
                             {category_to_community(category["communities"], category["name"])}
                         </AccordionDetails>
                         <Divider />
@@ -216,7 +220,7 @@ function Dashboard(props) {
                 </div>
             );
         })
-        return <Box>{categoriesList} </Box>
+        return <Box>{categoriesList}</Box>
     }
 
     return (
@@ -224,7 +228,6 @@ function Dashboard(props) {
             <MyAppBar {...props} />
             {category_to_accordion(categories)}
         </div>
-
     )
 }
 
