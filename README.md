@@ -39,3 +39,18 @@ Eventually we want to develop Traction into a mobile app to make it even more ac
 
 
 # How do I run it?
+###### these instructions are for Mac
+
+You can start the React app simply by navigating into the project folder (`cd yhacks-app`) and then running `yarn start`.
+
+Then, add the backend! `git clone https://github.com/rehoboth23/yhack_backend.git`
+Then, it's time to create a virtual environment on your own machine. Once you have `cd yhack_backend`, type `python3 -m venv myenv` (or whatever name you choose to call your venv).
+On Mac: `source myenv/bin/activate` (change the name to be what you named your venv).
+Once your venv is activated, `python -m pip install --upgrade pip`
+Use pip to install django! `pip install -r requirements.txt`
+(You may need to also do `python -m pip install django-cors-headers`)
+Then, `cd yhacks` and type `python3 manage.py migrate` and/or `python3 manage.py runserver`.
+
+Have fun exploring!
+
+
