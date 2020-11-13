@@ -20,7 +20,7 @@ export const authSuccess = token => {
     localStorage.removeItem("phone_errors")
     return {
         type: actionTypes.AUTH_SUCCESS,
-        token: token
+        token: `Token ${token}`
     }
 }
 
@@ -35,7 +35,7 @@ export const authFail = error => {
 
 export const logout = () => {
     localStorage.removeItem("token")
-    return{
+    return {
         type: actionTypes.AUTH_LOGOUT
     }
 }
@@ -57,27 +57,27 @@ export const authLogin = (email, password) => {
             .then(data => {
                 // parse and throw any error messages here
                 const errorType = data["Error"]
-                if(errorType === "1") {
+                if (errorType === "1") {
                     const authError = data["Authentication Error"]
                     localStorage.setItem("errorType", errorType)
                     localStorage.setItem("authError", authError)
                     throw Error("Bad Input")
                 }
-                else if(errorType === "2") {
+                else if (errorType === "2") {
                     const authError = data["Authentication Error"]
                     localStorage.setItem("errorType", errorType)
                     localStorage.setItem("authError", authError)
                     throw Error("Bad Input")
 
                 }
-                else if(errorType === "3") {
-                     const serverError = data["Server Error"]
+                else if (errorType === "3") {
+                    const serverError = data["Server Error"]
                     localStorage.setItem("errorType", errorType)
                     localStorage.setItem("serverError", serverError)
                     throw Error("Bad Input")
 
                 }
-                else if(errorType === "4") {
+                else if (errorType === "4") {
                     const authError = data["Authentication Error"]
                     localStorage.setItem("errorType", errorType)
                     localStorage.setItem("authError", authError)
@@ -98,8 +98,8 @@ export const authLogin = (email, password) => {
 }
 
 export const authSignUp = (
-        first_name, last_name, email,
-        birth_day, phone, gender, zipcode, password1, password2) => {
+    first_name, last_name, email,
+    birth_day, phone, gender, zipcode, password1, password2) => {
 
     return dispatch => {
         dispatch(authStart())
@@ -122,12 +122,12 @@ export const authSignUp = (
         }).then(res => res.json())
             .then(data => {
                 // parse and throw errors here
-                const {email_errors, password_errors, birth_day_errors, phone_errors} = data
-                if(email_errors) localStorage.setItem("email_errors", email_errors)
-                if(password_errors) localStorage.setItem("password_errors", password_errors)
-                if(birth_day_errors) localStorage.setItem("birth_day_errors", birth_day_errors)
+                const { email_errors, password_errors, birth_day_errors, phone_errors } = data
+                if (email_errors) localStorage.setItem("email_errors", email_errors)
+                if (password_errors) localStorage.setItem("password_errors", password_errors)
+                if (birth_day_errors) localStorage.setItem("birth_day_errors", birth_day_errors)
                 if (phone_errors) localStorage.setItem("phone_errors", phone_errors)
-                if(email_errors||password_errors||birth_day_errors||phone_errors) throw  Error("Bad Input")
+                if (email_errors || password_errors || birth_day_errors || phone_errors) throw Error("Bad Input")
 
                 // if no error retrieve token; check if token was give and put it in local storage
                 const token = data.token
@@ -148,7 +148,7 @@ export const checkState = () => {
         if (token === undefined) {
             dispatch(logout());
         }
-        else{
+        else {
             dispatch(authSuccess(token));
         }
     }

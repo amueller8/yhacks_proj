@@ -10,7 +10,9 @@ import { makeStyles, styled } from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
 import Link from '@material-ui/core/Link';
 import { Accordion, AccordionDetails, AccordionSummary } from '@material-ui/core';
-import MyAppBar from "../../components/menuBar";
+import { Redirect, withRouter } from "react-router"
+import { connect } from "react-redux"
+import * as actions from "../../store/actions/auth";
 
 function Copyright() {
     return (
@@ -72,9 +74,16 @@ const onClickHandler = (event) => {
     console.log("Join");
 }
 
-export default function CommunityPage() {
+
+function CommunityPage(props) {
     const classes = useStyles();
 
+    if (localStorage.getItem("token") && !props.token) {
+        props.checkState()
+    }
+    else if (!localStorage.getItem("token") || !("Token " + (localStorage.getItem("token")) === props.token)) {
+        return <Redirect push to="/login" />
+    }
     return (
         <React.Fragment>
             <CssBaseline />
@@ -154,3 +163,21 @@ export default function CommunityPage() {
         </React.Fragment >
     );
 }
+
+const mapStateToProps = state => {
+    return {
+        loading: state.loading,
+        error: state.error,
+        token: state.token
+    }
+}
+
+const mapDispatchToProps = dispatch => {
+    return {
+        checkState: () => dispatch(actions.checkState()),
+        logout: () => dispatch(actions.logout())
+    }
+}
+
+
+export default withRouter(connect(mapStateToProps, mapDispatchToProps)(CommunityPage))
