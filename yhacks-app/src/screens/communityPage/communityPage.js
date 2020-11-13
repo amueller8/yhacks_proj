@@ -74,23 +74,26 @@ const onClickHandler = (event) => {
     console.log("Join");
 }
 
+const goBack = (event) => {
+    return <Redirect to="/dashboard" />
+}
 
 function CommunityPage(props) {
     const classes = useStyles();
 
-    // if (localStorage.getItem("token") && !props.token) {
-    //     props.checkState()
-    // }
-    // else if (!localStorage.getItem("token") || !("Token " + (localStorage.getItem("token")) === props.token)) {
-    //     return <Redirect push to="/login" />
-    // }
+    if (localStorage.getItem("token") && !props.token) {
+        props.checkState()
+    }
+    else if (!localStorage.getItem("token") || !("Token " + (localStorage.getItem("token")) === props.token)) {
+        return <Redirect push to="/login" />
+    }
     return (
         <React.Fragment>
             <CssBaseline />
             <AppBar position="relative">
                 <Toolbar>
                     <Typography variant="h6" color="inherit" noWrap>
-                        Community Name
+                        <Button variant="h6" color="inherit" onClick={goBack}>Community Name</Button>
                     </Typography>
                 </Toolbar>
             </AppBar>
